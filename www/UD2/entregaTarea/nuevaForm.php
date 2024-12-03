@@ -13,7 +13,10 @@
         <div class="row">
             <?php include 'menu.php'; ?>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Crear Nueva Tarea</h2>
+              </div>
+              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <form action="nueva.php" method="POST" class="mb-5">
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción de la tarea</label>
@@ -29,6 +32,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Tarea</button>
                 </form>
+              </div>
             </main>
         </div>
         <?php include 'footer.php'; ?>

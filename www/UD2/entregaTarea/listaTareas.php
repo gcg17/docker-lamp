@@ -13,7 +13,10 @@
         <div class="row">
             <?php include 'menu.php'; ?>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Mis Tareas</h2>
+              </div>
+              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <table class="table table-striped table-hover">
                     <thead class="thread">
                         <tr>
@@ -32,12 +35,8 @@
                         ?>
                     </tbody>
                 </table>
+            </div>
             </main>
-        </div>
-        <?php include 'footer.php'; ?>
-    </div>
-</body>
-</html>
         </div>
         <?php include 'footer.php'; ?>
     </div>
