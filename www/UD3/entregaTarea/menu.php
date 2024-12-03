@@ -14,7 +14,7 @@
                 <a class="nav-link" href="usuarios.php">Usuarios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="listaTareas.php">Nuevo Usuario</a>
+                <a class="nav-link" href="nuevoUsuario.php">Nuevo Usuario</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="listaTareas.php">Mis Tareas</a>
@@ -23,7 +23,7 @@
                 <a class="nav-link" href="nuevaForm.php">Nueva tarea</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="nuevaForm.php">Buscador de tareas</a>
+                <a class="nav-link" href="buscador.php">Buscador de tareas</a>
             </li>
         </ul>
     </div>
