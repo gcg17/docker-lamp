@@ -24,7 +24,6 @@
                             <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
-                            <th>Contraseña</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
