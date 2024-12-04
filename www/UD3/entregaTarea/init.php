@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UD2. Tarea</title>
+    <title>UD3. Tarea</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -28,7 +28,7 @@
                 $sqlDB = "CREATE DATABASE IF NOT EXISTS tareas";
                 
                 if ($con->query($sqlDB) === TRUE) { 
-                    echo " BBDD creada -";
+                    echo "BBDD creada -";
                 } else {
                     echo "Error al crear la base de datos: " . $con->error . "-";
                 }

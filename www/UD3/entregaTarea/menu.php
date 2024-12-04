@@ -14,7 +14,7 @@
                 <a class="nav-link" href="usuarios.php">Usuarios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="nuevoUsuario.php">Nuevo Usuario</a>
+                <a class="nav-link" href="nuevoUsuarioForm.php">Nuevo Usuario</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="listaTareas.php">Mis Tareas</a>

@@ -41,7 +41,6 @@
                             <td>{$row['username']}</td>
                             <td>{$row['nombre']}</td>
                             <td>{$row['apellidos']}</td>
-                            <td>{$row['contrasena']}</td>
                             <td>
                             <a href='editaUsuarioForm.php?id={$row['id']}'>Editar</a> | <a href='borraUsuario.php?id={$row['id']}'>Borrar</a>
                             </td>
