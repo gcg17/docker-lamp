@@ -33,7 +33,7 @@
                     if ($stmt->execute([$username, $nombre, $apellidos, $id])) {
                         echo "Usuario actualizado correctamente";
                     } else {
-                        echo "Error al actualizar el usuario.";
+                        echo "Error al actualizar el usuario";
                     }
                 }
                 ?>

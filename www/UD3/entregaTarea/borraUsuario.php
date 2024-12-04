@@ -30,9 +30,10 @@
                     // Borrar usuario
                     $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = ?");
                     if ($stmt->execute([$id])) {
-                        echo "Usuario y sus tareas asociadas borrados correctamente";
+                        echo "Usuario y sus tareas asociadas borrados correctamente <br><br>";
+                        echo "<a href='usuarios.php'> <button type='submit' class='btn btn-primary'> Lista de usuarios actualizada </button> </a>";
                     } else {
-                        echo "Error al borrar el usuario.";
+                        echo "Error al borrar el usuario";
                     }
                 }
                 ?>
