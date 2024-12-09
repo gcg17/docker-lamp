@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
                 <input type='submit' value='Guardar Cambios'>
               </form>";
     } else {
-        echo "Usuario no encontrado.";
+        echo "Usuario no encontrado";
     }
 }
 ?>

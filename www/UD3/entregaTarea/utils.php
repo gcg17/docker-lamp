@@ -1,5 +1,6 @@
 <!-- utils.php -->
 <?php
+
 // Array global para almacenar las tareas
 $tareas = [
     ['id' => 1, 'descripcion' => 'Tarea de ejemplo', 'estado' => 'pendiente'], 

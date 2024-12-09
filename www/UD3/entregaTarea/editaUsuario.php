@@ -1,4 +1,4 @@
-<!-- borrarUsuario.php -->
+<!-- editaUsuario.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +12,7 @@
         <?php include 'header.php'; ?>
         <div class="row">
             <?php include 'menu.php'; ?>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-s require_once('../utils.php');m-auto col-lg-10 px-md-4">
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h2>Ediar usuario</h2>
             </div>
