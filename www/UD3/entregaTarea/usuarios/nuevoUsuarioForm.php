@@ -9,9 +9,9 @@
 </head>
 <body>
     <div class="container-fluid">
-        <?php include 'header.php'; ?>
+        <?php include ('../componentes/header.php'); ?>
         <div class="row">
-            <?php include 'menu.php'; ?>
+            <?php include ('../componentes/menu.php'); ?>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Crear Nueva Usuario</h2>
@@ -48,7 +48,7 @@
               </div>
             </main>
         </div>
-        <?php include 'footer.php'; ?>
+        <?php include ('../componentes/footer.php'); ?>
     </div>
 </body>
 </html>

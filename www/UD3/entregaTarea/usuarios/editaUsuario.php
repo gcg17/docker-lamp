@@ -9,16 +9,16 @@
 </head>
 <body>
     <div class="container-fluid">
-        <?php include 'header.php'; ?>
+        <?php include ('../componentes/header.php'); ?>
         <div class="row">
-            <?php include 'menu.php'; ?>
+            <?php include ('../componentes/menu.php'); ?>
             <main class="col-md-9 ms-s require_once('../utils.php');m-auto col-lg-10 px-md-4">
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h2>Ediar usuario</h2>
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                require 'pdo.php';
+                require ('../conexiones/pdo.php');
 
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $id = (int)$_POST['id'];
@@ -40,7 +40,7 @@
             </div>
             </main>
         </div>
-        <?php include_once('footer.php'); ?>
+        <?php include_once('../componentes/footer.php'); ?>
     </div>
 </body>
 </html>
