@@ -9,16 +9,17 @@
 </head>
 <body>
     <div class="container-fluid">
-        <?php include 'header.php'; ?>
+        <?php include ('componentes/header.php'); ?>
         <div class="row">
-            <?php include 'menu.php'; ?>
+            <?php include ('componentes/menu.php'); ?>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                <?php
-              
-                $con = new mysqli("db", "root", "test", "colegio");
+                
+                $con = new mysqli("db", "root", "test", null);
+                
                 // Comprobar la conexión
                 if ($con->connect_error) {
                     die("Error de conexión: " . $con->connect_error);
@@ -28,9 +29,9 @@
                 $sqlDB = "CREATE DATABASE IF NOT EXISTS tareas";
                 
                 if ($con->query($sqlDB) === TRUE) { 
-                    echo "BBDD creada -";
+                    echo '<div class="alert alert-success" role="alert"> BBDD creada </div>';
                 } else {
-                    echo "Error al crear la base de datos: " . $con->error . "-";
+                    echo '<div class="alert alert-success" role="alert"> Error al crear la base de datos: " . $con->error . "-" <div/>';
                 }
                 
                 $con->select_db("tareas");
@@ -43,9 +44,9 @@
                 contrasena VARCHAR(100))";
                 
                 if ($con->query($sqlUsuarios) === TRUE) {
-                    echo "Tabla usuarios creada -";
+                    echo '<div class="alert alert-success" role="alert"> Tabla usuarios creada </div>';
                 } else {
-                    echo "Error al crear la tabla usuarios: " . $con->error . "-";
+                    echo '<div class="alert alert-success" role="alert"> Error al crear la tabla usuarios: " . $con->error . "-" </div>';
                 }
                 
                 // Crear tabla tareas
@@ -57,9 +58,9 @@
                 FOREIGN KEY (id_usuario) REFERENCES usuarios(id))";
                 
                 if ($con->query($sqlTareas) === TRUE) {
-                    echo "Tabla tareas creada";
+                    echo '<div class="alert alert-success" role="alert"> Tabla tareas creada </div>';
                 } else {
-                    echo "Error al crear la tabla tareas: " . $con->error . "-";
+                    echo '<div class="alert alert-success" role="alert"> Error al crear la tabla tareas: " . $con->error . "-" </div>';
                 }
                 
                 $con->close();
@@ -67,7 +68,7 @@
             </div>
             </main>
         </div>
-        <?php include 'footer.php'; ?>
+        <?php include ('componentes/footer.php'); ?>
     </div>
 </body>
 </html>
