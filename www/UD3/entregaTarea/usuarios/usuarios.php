@@ -9,9 +9,9 @@
 </head>
 <body>
     <div class="container-fluid">
-        <?php include ('../componentes/header.php'); ?>
+        <?php include_once ('../componentes/header.php'); ?>
         <div class="row">
-            <?php include ('../componentes/menu.php'); ?>
+            <?php include_once ('../componentes/menu.php'); ?>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Usuarios</h2>
@@ -29,7 +29,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        require ('../conexiones/pdo.php');
+                        require_once ('../conexiones/pdo.php');
                         $pdo = getPDOConnection();
                         $stmt = $pdo->query("SELECT * FROM usuarios");
                         
@@ -41,7 +41,8 @@
                             <td>{$row['nombre']}</td>
                             <td>{$row['apellidos']}</td>
                             <td>
-                            <a href='editaUsuarioForm.php?id={$row['id']}'>Editar</a> | <a href='borraUsuario.php?id={$row['id']}'>Borrar</a>
+                            <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
+                            <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
                             </td>
                             </tr>";
                         }
@@ -51,7 +52,7 @@
             </div>
             </main>
         </div>
-        <?php include ('../componentes/footer.php'); ?>
+        <?php include_once ('../componentes/footer.php'); ?>
     </div>
 </body>
 </html>

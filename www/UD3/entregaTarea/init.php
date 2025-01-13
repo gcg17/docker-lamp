@@ -18,7 +18,7 @@
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                <?php
                 
-                $con = new mysqli("db", "root", "test", null);
+                $con = new mysqli("db", "root", "test", "tareas");
                 
                 // Comprobar la conexión
                 if ($con->connect_error) {

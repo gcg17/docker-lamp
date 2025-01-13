@@ -139,8 +139,7 @@ function createTablaTareas()
     }
 }
 
-function listaTareas()
-{
+function listaTareas(){
     try {
         $conexion = conectaTareas();
 

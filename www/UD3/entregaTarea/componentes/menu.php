@@ -3,12 +3,12 @@
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="init.php">
+                <a class="nav-link" href="/UD3/entregaTarea/init.php">
                     <button type="submit" class="btn btn-primary">Inicializar (mysqli)</button>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index.php">Home</a>
+                <a class="nav-link" href="/UD3/entregaTarea/index.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/UD3/entregaTarea/usuarios/usuarios.php">Usuarios</a>
