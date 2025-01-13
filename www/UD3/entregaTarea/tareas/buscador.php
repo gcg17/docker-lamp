@@ -1,5 +1,5 @@
 <?php
-require 'pdo.php';
+require ('../conexiones/pdo.php');
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];

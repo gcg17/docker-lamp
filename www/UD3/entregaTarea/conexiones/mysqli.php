@@ -8,21 +8,21 @@ function getMysqliConnection() {
     return $mysqli;
 }
 
+//mirar que falla
 function listaTareas() {
 
     try{
         $conexion = getMysqliConnection();
         if ($conexion->connect_error) {
-            [false, $conexion->connect_error];
+            $conexion->connect_error;
         } else {
             $sql = 'SSELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
                     FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id';
             $resultados = $conexion -> query($sql);
-            $tareas = array();
-            return [true, $tareas];
+            return $resultados;
         }
     } catch(mysqli_sql_exception $e) {
-        return [false, $e -> getMessage()];
+        return $e -> getMessage();
         
     } finally {
         if (isset($conexion) && $conexion->connect_errno === 0) {

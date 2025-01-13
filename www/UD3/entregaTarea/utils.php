@@ -1,16 +1,6 @@
 <!-- utils.php -->
 <?php
 
-// Array global para almacenar las tareas
-$tareas = [
-    ['id' => 1, 'descripcion' => 'Tarea de ejemplo', 'estado' => 'pendiente'], 
-];
-
-function obtenerTareas() {
-    global $tareas;
-    return $tareas;
-}
-
 function filtrarCampo($campo) {
     return trim(htmlspecialchars($campo));
 }
@@ -34,8 +24,5 @@ function guardarTarea($descripcion, $estado) {
     }
     return false;
 }
-
-//No me actualiza el array cada vez que meto una nueva tarea
-//¿Como puedo hacer esto?
 
 ?>

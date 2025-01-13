@@ -32,7 +32,10 @@
                         <?php
                         require_once ('../conexiones/mysqli.php');
                         $conexion = getMysqliConnection();
-                        $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, u.username FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id";
+
+                        //consulta sql de union entre dos tablas
+                        $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
+                                FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id";
                         $resultado = $conexion -> query($sql);
                         while ($row = $resultado -> fetch_assoc()) {
                             echo "<tr>
@@ -49,17 +52,19 @@
                         }
 
                         /*error me devuelve boolean mirar como se hace asi
-                        if (is_array($tareas) && count($tareas) > 0){
-                        foreach ($tareas as $tarea) {
-                            echo "<tr><td>{$tarea['id']}</td>
-                                  <td>{$tarea['titulo']}</td>
-                                  <td>{$tarea['descripcion']}</td>
-                                  <td>{$tarea['estado']}</td>
-                                  <td>{$tarea['id_usuario']}</td></tr>";
-                          }
-                        } else{
-                            echo '<tr><td colspan="100">No hay tareas</td></tr>';
-                        }*/
+                        $resultado = listaTareas();
+                        while ($row = $resultado -> fetch_assoc()) {
+                            echo "<tr><td>{$row['id']}</td>
+                                  <td>{$row['titulo']}</td>
+                                  <td>{$row['descripcion']}</td>
+                                  <td>{$row['estado']}</td>
+                                  <td>{$row['username']}</td></tr>
+                                  <td>
+                                  <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
+                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
+                                  </td>
+                                  </tr>";
+                             }*/
                         ?>
                     </tbody>
                 </table>

@@ -18,6 +18,10 @@
               </div>
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <form action="nueva.php" method="POST" class="mb-5">
+                   <div class="mb-3">
+                        <label for="titulo" class="form-label">Titulo</label>
+                        <input type="text" name="titulo" id="titulo" class="form-control" required>
+                    </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción de la tarea</label>
                         <input type="text" name="descripcion" id="descripcion" class="form-control" required>
@@ -28,6 +32,19 @@
                             <option value="pendiente">Pendiente</option>
                             <option value="en_proceso">En proceso</option>
                             <option value="completada">Completada</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_usuario" class="form-label">Usuario</label>
+                        <select name="id_usuario" id="id_usuario" class="form-select">
+
+                        <?php require_once('../conexiones/pdo.php');
+                        $usuarios = listaUsuarios()[1];
+                        foreach ($usuarios as $usuario) { ?>    
+                           <option value="<?php echo isset($id_usuario) ? '' : 'selected' ?>">
+                              <?php echo $usuario['username']; ?>
+                           </option>
+                           <?php } ?> 
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Tarea</button>

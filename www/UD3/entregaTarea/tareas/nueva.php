@@ -18,16 +18,24 @@
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                include 'utils.php';
+                include '../conexiones/pdo.php';
                 
-                $descripcion = $_POST['descripcion'] ?? '';
-                $estado = $_POST['estado'] ?? '';
-                
-                if (guardarTarea($descripcion, $estado)){
-                    echo "<p>Tarea guardada con éxito</p>";
-                    echo "<p><a href='listaTareas.php'> <button type='submit' class='btn btn-primary'> Lista de tareas actualizada </button> </a> </p>";
-                }else {
-                    echo "<p>Error: Verifica los datos e intenta nuevamente.</p>";
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $titulo = htmlspecialchars($_POST['titulo']);
+                    $descripcion = htmlspecialchars($_POST['descripcion']);
+                    $estado = htmlspecialchars($_POST['estado']);
+                    $username = htmlspecialchars($_POST['id_usuario']);
+                    
+                    $pdo = getPDOConnection();
+                    
+                    $sql = "INSERT INTO usuarios (titulo, descripcion, estado, id_usuario) VALUES (?, ?, ?, ?)";
+
+                    $stmt = $pdo->prepare($sql);
+                    if ($stmt->execute([$titulo, $descripcion, $estado, $id_usuario])) {
+                        echo "Usuario añadido correctamente";
+                    } else {
+                        echo "Error al añadir la tarea.";
+                    }
                 }
             ?>
             </div>
