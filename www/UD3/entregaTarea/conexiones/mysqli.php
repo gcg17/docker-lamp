@@ -29,7 +29,9 @@ function listaTareas() {
         return [false, $e -> getMessage()];
         
     } finally {
-        $conexion -> close();
+        if (isset($conexion) && $conexion->connect_errno === 0) {
+            $conexion->close();
+        }
     }
 
 }
@@ -51,7 +53,6 @@ function buscaTarea(){
 }
 
 function buscaUsuariomyslqi($id){
-    
     $conexion = getMysqliConnection();
     if ($conexion->connect_error)
     {
@@ -61,12 +62,10 @@ function buscaUsuariomyslqi($id){
     {
         $sql = "SELECT * FROM usuarios WHERE id = " . $id;
         $resultados = $conexion->query($sql);
-        if ($resultados->num_rows == 1)
-        {
+        if ($resultados->num_rows == 1){
             return $resultados->fetch_assoc();
         }
-        else
-        {
+        else{
             return null;
         }
     }
