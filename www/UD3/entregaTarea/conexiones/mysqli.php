@@ -15,14 +15,10 @@ function listaTareas() {
         if ($conexion->connect_error) {
             [false, $conexion->connect_error];
         } else {
-            $sql = 'SELECT * FROM tareas';
+            $sql = 'SSELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
+                    FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id';
             $resultados = $conexion -> query($sql);
             $tareas = array();
-            while ($row = $resultados->fetch_assoc()) {
-                $usuario = buscaUsuariomyslqi($row['id_usuario']);
-                $row['id_usuario'] = $usuario['username'];
-                array_push($tareas, $row);
-            }
             return [true, $tareas];
         }
     } catch(mysqli_sql_exception $e) {
