@@ -50,7 +50,7 @@
                             </td>
                             </tr>";
                         }
-
+                        
                         /*error me devuelve boolean mirar como se hace asi
                         $resultado = listaTareas();
                         while ($row = $resultado -> fetch_assoc()) {
