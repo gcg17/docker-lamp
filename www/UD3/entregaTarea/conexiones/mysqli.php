@@ -16,7 +16,7 @@ function listaTareas() {
         if ($conexion->connect_error) {
             $conexion->connect_error;
         } else {
-            $sql = 'SSELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
+            $sql = 'SELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
                     FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id';
             $resultados = $conexion -> query($sql);
             return $resultados;
