@@ -30,10 +30,11 @@
                     </thead>
                     <tbody>
                         <?php
+                        
                         require_once ('../conexiones/mysqli.php');
                         $conexion = getMysqliConnection();
 
-                        //consulta sql de union entre dos tablas
+                        /* 1) consulta sql de union entre dos tablas sin llamar a la function en mysqli
                         $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
                                 FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id";
                         $resultado = $conexion -> query($sql);
@@ -49,12 +50,13 @@
                             <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
                             </td>
                             </tr>";
-                        }
+                        }*/
                         
-                        /*error me devuelve boolean mirar como se hace asi
+                        // 2) sacar listado llamando a la function listaTareas() en mysqli
                         $resultado = listaTareas();
                         while ($row = $resultado -> fetch_assoc()) {
-                            echo "<tr><td>{$row['id']}</td>
+                            echo "<tr>
+                                  <td>{$row['id']}</td>
                                   <td>{$row['titulo']}</td>
                                   <td>{$row['descripcion']}</td>
                                   <td>{$row['estado']}</td>
@@ -64,7 +66,7 @@
                                   <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
                                   </td>
                                   </tr>";
-                             }*/
+                             }
                         ?>
                     </tbody>
                 </table>
