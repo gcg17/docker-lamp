@@ -34,7 +34,7 @@
                         require_once ('../conexiones/mysqli.php');
                         $conexion = getMysqliConnection();
 
-                        /* 1) consulta sql de union entre dos tablas sin llamar a la function en mysqli
+                        /*1) consulta sql de union entre dos tablas sin llamar a la function en mysqli
                         $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, u.username 
                                 FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id";
                         $resultado = $conexion -> query($sql);
@@ -52,7 +52,7 @@
                             </tr>";
                         }*/
                         
-                        // 2) sacar listado llamando a la function listaTareas() en mysqli
+                        # 2) sacar listado llamando a la function listaTareas() en mysqli
                         $resultado = listaTareas();
                         while ($row = $resultado -> fetch_assoc()) {
                             echo "<tr>
