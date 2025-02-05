@@ -38,13 +38,13 @@
                         <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
 
-                        <?php require_once('../conexiones/pdo.php');
-                        $usuarios = listaUsuarios()[1];
-                        foreach ($usuarios as $usuario) { ?>    
-                           <option value="<?php echo isset($id_usuario) ? '' : 'selected' ?>">
-                              <?php echo $usuario['username']; ?>
+                        <?php require_once('../conexiones/myslqi.php');
+                        $usuarios = listaTareas();
+                        while ($row = $usuarios -> fetch_assoc()) { ?>    
+                           <option value="<?php echo htmlspecialchars($row['username']); ?>">
+                           <?php echo htmlspecialchars($row['username']); ?>
                            </option>
-                           <?php } ?> 
+                           <?php } ?>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Tarea</button>
@@ -52,7 +52,7 @@
               </div>
             </main>
         </div>
-        <?php include ('../componentes/footer.php'); ?>
     </div>
+    <?php include ('../componentes/footer.php'); ?>
 </body>
 </html>

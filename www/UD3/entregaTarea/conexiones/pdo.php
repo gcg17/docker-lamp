@@ -13,24 +13,16 @@ function getPDOConnection() {
     }
 }
 
-function listaUsuarios($id_usuario,$estado) {
+function listaUsuarios() {
     
     try{
         $con = getPDOConnection();
-        $sql = 'SELECT * FROM tareas WHERE id_usuario = '.$id_usuario;
-        if (isset($estado)){
-            $sql = $sql. " AND estado = '".$estado. "'";
-        }
-        $stmt = $con->prepare($sql);
-        $stmt->execute();
+        $sql = 'SELECT * FROM usuarios';
+        $stmt = $con->query($sql);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $tareas = $stm;
         $tareas = array();
-        while ($row = $stmt->fetch()){
-            $usuario = buscaUsuario($row['id_usuario']);
-            $row['id_usuario'] = $usuario['username'];
-            array_push($tareas, $row);
-        }
-        return [true, $tareas];
+        return  $tareas;
         
     } catch (PDOException $e){
         return [false, $e -> getMessage()];
@@ -39,7 +31,7 @@ function listaUsuarios($id_usuario,$estado) {
     }
 }
 
-function buscarUsuario(){
+function buscarUsuario($id_usuario){
 
     try{
         $con = getPDOConnection();
