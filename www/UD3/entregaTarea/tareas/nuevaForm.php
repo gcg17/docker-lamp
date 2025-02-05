@@ -37,8 +37,7 @@
                     <div class="mb-3">
                         <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
-
-                        <?php require_once('../conexiones/myslqi.php');
+                        <?php require_once('../conexiones/mysqli.php');
                         $usuarios = listaTareas();
                         while ($row = $usuarios -> fetch_assoc()) { ?>    
                            <option value="<?php echo htmlspecialchars($row['username']); ?>">
