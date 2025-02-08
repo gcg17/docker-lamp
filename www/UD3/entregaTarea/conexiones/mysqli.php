@@ -6,9 +6,28 @@ function getMysqliConnection() {
         die("Error de conexión: " . $mysqli->connect_error);
     }
     return $mysqli;
-}
-
+  }
 function listaTareas() {
+    try{
+        $conexion = getMysqliConnection();
+        if ($conexion->connect_error) {
+            $conexion->connect_error;
+        } else {
+            $sql = 'SELECT * FROM usuarios';
+            $resultados = $conexion -> query($sql);
+            return $resultados;
+        }
+    } catch(mysqli_sql_exception $e) {
+        return $e -> getMessage();
+
+    } finally {
+        if (isset($conexion) && $conexion->connect_errno === 0) {
+            $conexion->close();
+        }
+    }
+  }
+
+    function listaTareasUsuario() {
 
     try{
         $conexion = getMysqliConnection();
@@ -29,23 +48,23 @@ function listaTareas() {
         }
     }
 
-}
+  }
 
 function nuevaTarea(){
 
-}
+  }
 
 function actualizaTarea(){
 
-}
+  }
 
 function borraTarea(){
 
-}
+  }
 
 function buscaTarea(){
 
-}
+  }  
 
 function buscaUsuariomyslqi($id){
     $conexion = getMysqliConnection();

@@ -1,17 +1,18 @@
 <?php
 require ('../conexiones/pdo.php');
 
-if (isset($_GET['username'])) {
-    $username = (string)$_GET['username'];
-    $pdo = getPDOConnection();
+#verificar que se han enviado los datos del formulario
+if (isset($_GET['id_usuario']) && isset($_GET['estado'])) {
+    $id = htmlspecialchars($_GET['id_usuario']);
+    $estado = htmlspecialchars($_GET['estado']);    
     
-    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE username = ?");
-    $stmt->execute([$username]);
-    $id = $stmt->fetch(PDO::FETCH_ASSOC);
+    #conexion con PDO
+    $pdo = getPDOConnection();
 
+    #ejecución de la consulta SQL
     if ($id) {
-        $stmt2 = $pdo->prepare("SELECT t.*, u.username FROM tareas t JOIN usuarios u ON t.id_usuario = u.id WHERE t.id_usuario = ?");
-        $stmt2->execute([$id['id']]);
+        $stmt2 = $pdo->prepare("SELECT * FROM tareas WHERE id_usuario = ?");
+        $stmt2->execute([$id]);
         $tareas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         
         if ($tareas) {

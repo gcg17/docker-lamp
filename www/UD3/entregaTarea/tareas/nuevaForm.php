@@ -40,7 +40,7 @@
                         <?php require_once('../conexiones/mysqli.php');
                         $usuarios = listaTareas();
                         while ($row = $usuarios -> fetch_assoc()) { ?>    
-                           <option value="<?php echo htmlspecialchars($row['username']); ?>">
+                           <option value="<?php echo htmlspecialchars($row['id']); ?>">
                            <?php echo htmlspecialchars($row['username']); ?>
                            </option>
                            <?php } ?>

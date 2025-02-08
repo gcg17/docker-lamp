@@ -19,28 +19,30 @@
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
                 include '../conexiones/pdo.php';
-                
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $titulo = htmlspecialchars($_POST['titulo']);
-                    $descripcion = htmlspecialchars($_POST['descripcion']);
-                    $estado = htmlspecialchars($_POST['estado']);
-                    $username = htmlspecialchars($_POST['id_usuario']);
-                    
-                    $pdo = getPDOConnection();
-                    
-                    $sql = "INSERT INTO usuarios (titulo, descripcion, estado, id_usuario) VALUES (?, ?, ?, ?)";
 
-                    $stmt = $pdo->prepare($sql);
-                    if ($stmt->execute([$titulo, $descripcion, $estado, $id_usuario])) {
-                        echo "Usuario añadido correctamente";
-                    } else {
-                        echo "Error al añadir la tarea.";
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    try {
+                        $titulo = htmlspecialchars($_POST['titulo']);
+                        $descripcion = htmlspecialchars($_POST['descripcion']);
+                        $estado = htmlspecialchars($_POST['estado']);
+                        $id_usuario = htmlspecialchars($_POST['id_usuario']);
+                        
+                        $pdo = getPDOConnection();
+                        
+                        $sql = "INSERT INTO tareas (titulo, descripcion, estado, id_usuario) VALUES (?, ?, ?, ?)";
+
+                        $stmt = $pdo->prepare($sql);
+                        if ($stmt->execute([$titulo, $descripcion, $estado, $id_usuario])) {
+                            echo '<div class="alert alert-success">Tarea añadida correctamente</div>';
+                        }
+                    } catch(PDOException $e) {
+                        echo '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
                     }
                 }
             ?>
             </div>
             </main>
-        </div>
+        </div>        
         <?php include_once ('../componentes/footer.php'); ?>
     </div>
 </body>

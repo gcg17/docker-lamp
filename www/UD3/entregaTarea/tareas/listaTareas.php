@@ -54,7 +54,7 @@
                         }*/
                         
                         # 2) sacar listado llamando a la function listaTareas() en mysqli
-                        $resultado = listaTareas();
+                        $resultado = listaTareasUsuario();
                         while ($row = $resultado -> fetch_assoc()) {
                             echo "<tr>
                                   <td>{$row['id']}</td>
