@@ -35,37 +35,41 @@
                                 if (isset($_GET['id_usuario']) && isset($_GET['estado'])) {
                                     $id = htmlspecialchars($_GET['id_usuario']);
                                     $estado = htmlspecialchars($_GET['estado']);    
-                                    
+                                 }
                                     #conexion con PDO
                                     $pdo = getPDOConnection();
 
                                     #ejecución de la consulta SQL
-                                    if ($id) {
-                                        $stmt2 = $pdo->prepare("SELECT * FROM tareas WHERE id_usuario = ?");
-                                        $stmt2->execute([$id]);
-                                        $tareas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                    try {
+                                        try {
+                                            $stmt2 = $pdo->prepare("SELECT t.*, u.username FROM tareas t INNER JOIN usuarios u ON t.id_usuario = u.id 
+                                                                    WHERE t.id_usuario = ? AND t.estado = ?");
+                                            $stmt2->execute([$id, $estado]);
+                                            $tareas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                                         
-                                        if ($tareas) {
-                                            foreach($tareas as $tarea) {
-                                                echo "<tr>
-                                                <td>{$tarea['id']}</td>
-                                                <td>{$tarea['titulo']}</td>
-                                                <td>{$tarea['descripcion']}</td>
-                                                <td>{$tarea['estado']}</td>
-                                                <td>{$tarea['id_usuario']}</td>
-                                                <td>
-                                                <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$tarea['id']}' role='button'>Editar</a>
-                                                <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$tarea['id']}' role='button'>Borrar</a>
-                                                </td>
-                                                </tr>";
+                                            if ($tareas) {
+                                                foreach($tareas as $tarea) {
+                                                    echo "<tr>
+                                                    <td>{$tarea['id']}</td>
+                                                    <td>{$tarea['titulo']}</td>
+                                                    <td>{$tarea['descripcion']}</td>
+                                                    <td>{$tarea['estado']}</td>
+                                                    <td>{$tarea['username']}</td>
+                                                    <td>
+                                                    <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$tarea['id']}' role='button'>Editar</a>
+                                                    <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$tarea['id']}' role='button'>Borrar</a>
+                                                    </td>
+                                                    </tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='6'>No se encontraron tareas que coincidan con los criterios de búsqueda</td></tr>";
                                             }
-                                        } else {
-                                            echo "<tr><td colspan='6'>No existen tareas para este usuario</td></tr>";
+                                        } catch (PDOException $e) {
+                                            echo "<tr><td colspan='6'>Error en la consulta: " . $e->getMessage() . "</td></tr>";
                                         }
-                                    } else {
-                                        echo "<tr><td colspan='6'>El usuario seleccionado no existe</td></tr>";
+                                    } catch (PDOException $e) {
+                                        echo "<tr><td colspan='6'>Error en la consulta: " . $e->getMessage() . "</td></tr>";
                                     }
-                                }
                                 ?>
                             </tbody>
                         </table>
