@@ -21,7 +21,7 @@
                    <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
                         <?php require_once('../conexiones/mysqli.php');
-                        $usuarios = listaTareasUsuario();
+                        $usuarios = listaTareas();
                         while ($row = $usuarios -> fetch_assoc()) { ?>    
                            <option value="<?php echo htmlspecialchars($row['id']); ?>">
                            <?php echo htmlspecialchars($row['username']); ?>
