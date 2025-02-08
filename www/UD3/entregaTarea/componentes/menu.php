@@ -23,7 +23,7 @@
                 <a class="nav-link" href="/UD3/entregaTarea/tareas/nuevaForm.php">Nueva tarea</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/UD3/entregaTarea/tareas/buscador.php">Buscador de tareas</a>
+                <a class="nav-link" href="/UD3/entregaTarea/tareas/buscaTareas.php">Buscador de tareas</a>
             </li>
         </ul>
     </div>

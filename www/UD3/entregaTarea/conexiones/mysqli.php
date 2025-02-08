@@ -8,7 +8,6 @@ function getMysqliConnection() {
     return $mysqli;
 }
 
-//mirar que falla
 function listaTareas() {
 
     try{

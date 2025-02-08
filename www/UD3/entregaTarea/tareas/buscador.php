@@ -1,31 +1,38 @@
 <?php
 require ('../conexiones/pdo.php');
 
-if (isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
+if (isset($_GET['username'])) {
+    $username = (string)$_GET['username'];
     $pdo = getPDOConnection();
     
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
-    $stmt->execute([$id]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if ($usuario) {
-        echo "<form action='editaUsuario.php' method='post'>
-                <input type='hidden' name='id' value='{$usuario['id']}'>
+    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE username = ?");
+    $stmt->execute([$username]);
+    $id = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                <label for='username'>Username:</label>
-                <input type='text' name='username' value='{$usuario['username']}' required><br>
-
-                <label for='nombre'>Nombre:</label>
-                <input type='text' name='nombre' value='{$usuario['nombre']}' required><br>
-
-                <label for='apellidos'>Apellidos:</label>
-                <input type='text' name='apellidos' value='{$usuario['apellidos']}' required><br>
-
-                <input type='submit' value='Guardar Cambios'>
-              </form>";
+    if ($id) {
+        $stmt2 = $pdo->prepare("SELECT t.*, u.username FROM tareas t JOIN usuarios u ON t.id_usuario = u.id WHERE t.id_usuario = ?");
+        $stmt2->execute([$id['id']]);
+        $tareas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ($tareas) {
+            foreach($tareas as $tarea) {
+                echo "<tr>
+                <td>{$tarea['id']}</td>
+                <td>{$tarea['titulo']}</td>
+                <td>{$tarea['descripcion']}</td>
+                <td>{$tarea['estado']}</td>
+                <td>{$tarea['username']}</td>
+                <td>
+                <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$tarea['id']}' role='button'>Editar</a>
+                <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$tarea['id']}' role='button'>Borrar</a>
+                </td>
+                </tr>";
+            }
+        } else {
+            echo "No existen tareas para este usuario";
+        }
     } else {
-        echo "Usuario no encontrado";
+        echo "El usuario selecciona no existe";
     }
 }
 ?>

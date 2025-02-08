@@ -16,9 +16,10 @@
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Mis Tareas</h2>
               </div>
-              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+              <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <div class="table">
                 <table class="table table-striped table-hover">
-                    <thead class="thread">
+                    <thead class="thead">
                         <tr>
                             <th>ID</th>
                             <th>Título</th>
@@ -60,7 +61,7 @@
                                   <td>{$row['titulo']}</td>
                                   <td>{$row['descripcion']}</td>
                                   <td>{$row['estado']}</td>
-                                  <td>{$row['username']}</td></tr>
+                                  <td>{$row['username']}</td>
                                   <td>
                                   <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
                                   <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
@@ -71,6 +72,7 @@
                     </tbody>
                 </table>
             </div>
+          </div>
             </main>
         </div>
         <?php include_once ('../componentes/footer.php'); ?>
