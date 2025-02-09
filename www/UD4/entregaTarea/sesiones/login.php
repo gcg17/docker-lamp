@@ -1,4 +1,4 @@
-<!-- index.php -->
+<!-- login.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,7 +7,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-    <body>
+    <body class="body">
         
         <div class="form-container">
             <h2>Iniciar Sesión</h2>
@@ -27,14 +27,14 @@
             }
             ?>
 
-            <form action="auth.php" method="POST">
+            <form class= "" action="auth.php" method="POST">
                 <label for="usuario">Usuario:</label>
                 <input name="usuario" id="usuario" type="text" placeholder="Introduce tu usuario">
                 
                 <label for="pass">Contraseña:</label>
                 <input name="pass" id="pass" type="password" placeholder="Introduce tu contraseña">
                 
-                <input type="submit" value="Iniciar Sesión">
+                <input class="logout-buttom" type="submit" value="Iniciar Sesión">
             </form>
         </div>
     </body>
