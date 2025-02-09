@@ -43,12 +43,35 @@ function listaTareas() {
 
     try{
         $conexion = getMysqliConnection();
-        $user = $_SESSION['usuario']['id'];
+        $username = $_SESSION['usuario']['id'];
         if ($conexion->connect_error) {
             $conexion->connect_error;
         } else {
             $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, a.id_usuario, u.username 
                     FROM tareas a INNER JOIN usuarios u ON a.id_usuario = $user";
+            $resultados = $conexion -> query($sql);
+            return $resultados;
+        }
+    } catch(mysqli_sql_exception $e) {
+        return $e -> getMessage();
+        
+    } finally {
+        if (isset($conexion) && $conexion->connect_errno === 0) {
+            $conexion->close();
+        }
+    }
+
+  }
+
+  function listaTareasAdmin() {
+
+    try{
+        $conexion = getMysqliConnection();
+        if ($conexion->connect_error) {
+            $conexion->connect_error;
+        } else {
+            $sql = 'SELECT a.id, a.titulo, a.descripcion, a.estado, a.id_usuario, u.username 
+                    FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id';
             $resultados = $conexion -> query($sql);
             return $resultados;
         }

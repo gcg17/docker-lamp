@@ -55,7 +55,7 @@ if ($tema == 'dark') {
                         
                         #sacar listado llamando a la function listaTareas() en mysqli
                         $resultado = null;
-                        if ($_SESSION['usuario']['rol'] === 1) {
+                        if ($_SESSION['usuario']['rol'] == 1) {    
                             $resultado = listaTareasAdmin();
                         } else {
                             $resultado = listaTareasUsuario();
