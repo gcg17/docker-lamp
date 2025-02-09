@@ -1,8 +1,10 @@
 <?php
 #verificar si se ha iniciado sesión
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($_SESSION['usuario'])) {
-    header("Location: ../sesiones/login.php");
+    header("Location: sesiones/login.php");
     exit();
 }
 ?>
@@ -15,7 +17,7 @@ if (!isset($_SESSION['usuario'])) {
             
             <?php
             #Comprobar si el usuario es admin
-            if ($_SESSION['usuario']['rol'] == 'admin') {
+            if ($_SESSION['usuario']['rol'] == '1') {
             ?>
             <a class="nav-link" href="/UD4/entregaTarea/init.php">
                 <button type="submit" class="btn btn-primary">Inicializar (mysqli)</button>

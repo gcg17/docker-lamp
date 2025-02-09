@@ -4,21 +4,22 @@ session_start();
 #funcion para comprobar usuario y contraseña y asignar rol
 function comprobar_usuario($nombre, $pass) {
     try {
-
         require_once('../conexiones/pdo.php');
         $conexion = getPDOConnection();
-        
-        $sql = "SELECT * FROM usuarios WHERE username = :username AND contrasena = :password";
+
+        $sql = "SELECT * FROM usuarios WHERE username = :username";
         $stmt = $conexion->prepare($sql);
         $stmt->bindParam(':username', $nombre);
-        $stmt->bindParam(':password', $pass);
         $stmt->execute();
-        
+
         if($usuario = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            return [
-                'nombre' => $usuario['username'],
-                'rol' => $usuario['rol']
-            ];
+            #Verificar la contraseña con hash
+            if (password_verify($pass, $usuario['contrasena'])) {
+                return [
+                    'nombre' => $usuario['username'],
+                    'rol' => $usuario['rol']
+                ];
+            }
         }
         return false;
     }
@@ -31,15 +32,15 @@ function comprobar_usuario($nombre, $pass) {
 }
 
 #Comprobar si se reciben los datos    
-    $nombre = htmlspecialchars($_POST["usuario"], ENT_QUOTES, 'UTF-8');
-    $pass = htmlspecialchars($_POST["pass"], ENT_QUOTES, 'UTF-8');    
-    $user = comprobar_usuario($nombre, $pass);
-    if(!$user){
-        header('Location: login.php?error=true');
-    }
-    else
-    {
-        $_SESSION['usuario'] = $user;
-        #Redirigimos a index.php
-        header('Location: index.php');
-    }
+$nombre = htmlspecialchars($_POST["usuario"], ENT_QUOTES, 'UTF-8');
+$pass = htmlspecialchars($_POST["pass"], ENT_QUOTES, 'UTF-8');    
+$user = comprobar_usuario($nombre, $pass);
+if(!$user){
+    header('Location: login.php?error=true');
+}
+else
+{
+    $_SESSION['usuario'] = $user;
+    #Redirigimos a index.php
+    header('Location: ../index.php');
+}

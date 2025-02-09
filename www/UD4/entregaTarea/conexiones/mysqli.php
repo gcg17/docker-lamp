@@ -1,5 +1,3 @@
-<!--mysqli.php -->
-
 <?php
 #conexion mediante variables de entorno
 function getMysqliConnection() {

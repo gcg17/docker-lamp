@@ -1,5 +1,3 @@
-<!--pdo.php -->
-
 <?php
 function getPDOConnection() {
     $dsn = 'mysql:host=' . getenv('DATABASE_HOST') . ';dbname=' . getenv('DATABASE_NAME');
