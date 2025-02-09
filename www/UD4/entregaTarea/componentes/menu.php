@@ -7,10 +7,19 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: sesiones/login.php");
     exit();
 }
+
+#verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
+$tema = $_COOKIE['tema'] ?? 'light';
 ?>
 
 <!-- menu.php -->
-<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+<?php
+#setear el tema en el nav
+if ($tema == 'dark') {
+    echo '<nav class="col-md-3 col-lg-2 d-md-block sidebar">';
+}else{
+    echo '<nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">';
+}?>
     <div class="position-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -44,7 +53,15 @@ if (!isset($_SESSION['usuario'])) {
             <li class="nav-item">
                 <a class="nav-link" href="/UD4/entregaTarea/sesiones/logout.php">Salir</a>
             </li>
-            
+            <form action="cookies/tema.php" method="POST" class="m-3 w-50">
+            <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
+                <option value="light"> Claro</option>
+                <option value="dark">Oscuro</option>
+                <option value="auto">Automático</option>
+            </select>
+            <button type="submit" class="btn btn-primary w-100">Aplicar</button>
+            </form>
+
             <?php 
             #Si no es admin se muestra lo siguiente
             } else { ?>
@@ -62,7 +79,15 @@ if (!isset($_SESSION['usuario'])) {
             <li class="nav-item">
                 <a class="nav-link" href="/UD4/entregaTarea/sesiones/logout.php">Salir</a>
             </li>
-            <?php } ?>
         </ul>
+        <form action="cookies/tema.php" method="POST" class="m-3 w-50">
+            <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
+                <option value="light"> Claro</option>
+                <option value="dark">Oscuro</option>
+                <option value="auto">Automático</option>
+            </select>
+            <button type="submit" class="btn btn-primary w-100">Aplicar</button>
+        </form>
+        <?php } ?>
     </div>
 </nav>

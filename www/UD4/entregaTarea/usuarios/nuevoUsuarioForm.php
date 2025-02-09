@@ -5,16 +5,25 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: sesiones/login.php");
     exit();
 }
+
+#verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
+$tema = $_COOKIE['tema'] ?? 'light';
 ?>
 
-<!-- nuevoUsuarioForm.php -->
+<!--nuevoUsuarioForm.php -->
 <!DOCTYPE html>
-<html lang="es">
+<?php
+#setear el tema en el head
+if ($tema == 'dark') {
+    echo '<html lang="es" data-bs-theme="dark">';
+}else{
+    echo '<html lang="es">'
+}?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo Usuario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid">
@@ -39,19 +48,18 @@ if (!isset($_SESSION['usuario'])) {
                         <label for="apellidos" class="form-label">Apellidos</label>
                         <input type="text" name="apellidos" id="apellidos" class="form-control" required>
                     </div>
+                    <!--asginarle rol a un usuario-->
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Rol</label>
+                        <select name="rol" id="rol" class="form-select">
+                            <option value="1">Administrador</option>
+                            <option value="0">Usuario</option>
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="contrasena" class="form-label">Contraseña</label>
                         <input type="password" name="contrasena" id="contrasena" class="form-control" required>
                     </div>
-                    <!--puede asignarsele rol o tarea al usuario (mirar como)
-                    <div class="mb-3">
-                        <label for="estado" class="form-label">Estado</label>
-                        <select name="rol" id="rol" class="form-select">
-                            <option value="">admin</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
-                    </div>-->
                     <button type="submit" class="btn btn-primary">Añadir usuario</button>
                 </form>
               </div>

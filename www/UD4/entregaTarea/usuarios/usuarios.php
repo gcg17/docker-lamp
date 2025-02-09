@@ -5,16 +5,25 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: sesiones/login.php");
     exit();
 }
+
+#verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
+$tema = $_COOKIE['tema'] ?? 'light';
 ?>
 
-<!-- usuarios.php -->
+<!-- borrarUsuario.php -->
 <!DOCTYPE html>
-<html lang="es">
+<?php
+#setear el tema en el head
+if ($tema == 'dark') {
+    echo '<html lang="es" data-bs-theme="dark">';
+}else{
+    echo '<html lang="es">'
+}?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid">
@@ -33,6 +42,7 @@ if (!isset($_SESSION['usuario'])) {
                             <th>Usuario</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
+                            <th>Rol</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -49,6 +59,7 @@ if (!isset($_SESSION['usuario'])) {
                             <td>{$row['username']}</td>
                             <td>{$row['nombre']}</td>
                             <td>{$row['apellidos']}</td>
+                            <td>" . ($row['rol'] == 1 ? 'Administrador' : 'Usuario') . "</td>
                             <td>
                             <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
                             <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
