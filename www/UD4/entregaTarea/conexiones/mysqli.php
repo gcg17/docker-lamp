@@ -40,28 +40,31 @@ function listaTareas() {
   }
 
     function listaTareasUsuario() {
-
-    try{
-        $conexion = getMysqliConnection();
-        $username = $_SESSION['usuario']['id'];
-        if ($conexion->connect_error) {
-            $conexion->connect_error;
-        } else {
+        try {
+            $conexion = getMysqliConnection();
+            #Me da error
+            #$user = $_SESSION['usuario']['id'];
+            
+            if ($conexion->connect_error) {
+                throw new Exception($conexion->connect_error);
+            }
+            
             $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, a.id_usuario, u.username 
-                    FROM tareas a INNER JOIN usuarios u ON a.id_usuario = $user";
-            $resultados = $conexion -> query($sql);
-            return $resultados;
-        }
-    } catch(mysqli_sql_exception $e) {
-        return $e -> getMessage();
-        
-    } finally {
-        if (isset($conexion) && $conexion->connect_errno === 0) {
-            $conexion->close();
+                    FROM tareas a 
+                    INNER JOIN usuarios u ON a.id_usuario = u.id";
+            #where u.id =?"; #En este caso estoy buscando las tareas de un usuario determinado
+                    
+            $stmt = $conexion->prepare($sql);
+            #$stmt->bind_param("i", $user);
+            $stmt->execute();
+            
+            return $stmt->get_result();
+            
+        } catch(mysqli_sql_exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
     }
-
-  }
 
   function listaTareasAdmin() {
 
