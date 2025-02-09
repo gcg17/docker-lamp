@@ -54,7 +54,12 @@ if ($tema == 'dark') {
                         $conexion = getMysqliConnection();
                         
                         #sacar listado llamando a la function listaTareas() en mysqli
-                        $resultado = listaTareasUsuario();
+                        $resultado = null;
+                        if ($_SESSION['usuario']['rol'] === 1) {
+                            $resultado = listaTareasAdmin();
+                        } else {
+                            $resultado = listaTareasUsuario();
+                        }
                         while ($row = $resultado -> fetch_assoc()) {
                             echo "<tr>
                                   <td>{$row['id']}</td>

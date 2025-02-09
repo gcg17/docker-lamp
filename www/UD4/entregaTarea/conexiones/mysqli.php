@@ -8,11 +8,11 @@ function getMysqliConnection() {
         getenv('DATABASE_NAME'));
 
 #manera alternativa
-        #$mysqli = new mysqli(
-            #$_ENV['DATABASE_HOST'],
-            #$_ENV['DATABASE_USER'],
-            #$_ENV['DATABASE_PASSWORD'],
-            #$_ENV['DATABASE_NAME']);
+    #$mysqli = new mysqli(
+        #$_ENV['DATABASE_HOST'],
+        #$_ENV['DATABASE_USER'],
+        #$_ENV['DATABASE_PASSWORD'],
+        #$_ENV['DATABASE_NAME']);
 
     if ($mysqli->connect_error) {
         die("Error de conexión: " . $mysqli->connect_error);
@@ -43,11 +43,12 @@ function listaTareas() {
 
     try{
         $conexion = getMysqliConnection();
+        $user = $_SESSION['usuario']['id'];
         if ($conexion->connect_error) {
             $conexion->connect_error;
         } else {
-            $sql = 'SELECT a.id, a.titulo, a.descripcion, a.estado, a.id_usuario, u.username 
-                    FROM tareas a INNER JOIN usuarios u ON a.id_usuario = u.id';
+            $sql = "SELECT a.id, a.titulo, a.descripcion, a.estado, a.id_usuario, u.username 
+                    FROM tareas a INNER JOIN usuarios u ON a.id_usuario = $user";
             $resultados = $conexion -> query($sql);
             return $resultados;
         }
