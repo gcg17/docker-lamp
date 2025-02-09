@@ -17,7 +17,7 @@ $tema = $_COOKIE['tema'] ?? 'light';
 if ($tema == 'dark') {
     echo '<html lang="es" data-bs-theme="dark">';
 }else{
-    echo '<html lang="es">'
+    echo '<html lang="es">';
 }?>
 <head>
     <meta charset="UTF-8">

@@ -5,11 +5,20 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: sesiones/login.php");
     exit();
 }
+
+#verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
+$tema = $_COOKIE['tema'] ?? 'light';
 ?>
 
-<!--init.php-->
+<!--init.php -->
 <!DOCTYPE html>
-<html lang="es">
+<?php
+#setear el tema en el head
+if ($tema == 'dark') {
+    echo '<html lang="es" data-bs-theme="dark">';
+}else{
+    echo '<html lang="es">';
+}?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
