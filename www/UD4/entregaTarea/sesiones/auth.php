@@ -17,7 +17,7 @@ function comprobar_usuario($nombre, $pass) {
         if($usuario = $stmt->fetch(PDO::FETCH_ASSOC)) {
             return [
                 'nombre' => $usuario['username'],
-                'rol' => $usuario['rol'] // Assuming you have a rol column
+                'rol' => $usuario['rol']
             ];
         }
         return false;
@@ -32,8 +32,8 @@ function comprobar_usuario($nombre, $pass) {
 
 #Comprobar si se reciben los datos    
     $nombre = htmlspecialchars($_POST["usuario"], ENT_QUOTES, 'UTF-8');
-    $pass = htmlspecialchars($_POST["clave"], ENT_QUOTES, 'UTF-8');    
-    $user = comporbar_usuario($nombre, $pass);
+    $pass = htmlspecialchars($_POST["pass"], ENT_QUOTES, 'UTF-8');    
+    $user = comprobar_usuario($nombre, $pass);
     if(!$user){
         header('Location: login.php?error=true');
     }
