@@ -54,7 +54,7 @@ if ($tema == 'dark') {
             </li>
         </ul>
         <div>
-            <form action="cookies/tema.php" method="POST" class="m-3 w-50">
+            <form action="/UD4/entregaTarea/cookies/tema.php" method="POST" class="m-3 w-50">
             <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
                 <option value="light" selected>Claro</option>
                 <option value="dark">Oscuro</option>
