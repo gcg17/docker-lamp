@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UD3. Tarea</title>
+    <title>UD4. Tarea</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -18,14 +18,26 @@
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                <?php
                 
-                $con = new mysqli("db", "root", "test", "tareas");
+                #conexion mediante variables de entorno
+                $con = new mysqli(
+                    getenv('DATABASE_HOST'),
+                    getenv('DATABASE_USER'),
+                    getenv('DATABASE_PASSWORD'),
+                    getenv('DATABASE_NAME'));
                 
-                // Comprobar la conexión
+                #manera alternativa
+                #$mysqli = new mysqli(
+                #$_ENV['DATABASE_HOST'],
+                #$_ENV['DATABASE_USER'],
+                #$_ENV['DATABASE_PASSWORD'],
+                #$_ENV['DATABASE_NAME']);
+                
+                #Comprobar la conexión
                 if ($con->connect_error) {
                     die("Error de conexión: " . $con->connect_error);
                 }
                
-                // Crear base de datos si no existe
+                #Crear base de datos si no existe
                 $sqlDB = "CREATE DATABASE IF NOT EXISTS tareas";
                 
                 if ($con->query($sqlDB) === TRUE) { 
@@ -36,7 +48,7 @@
                 
                 $con->select_db("tareas");
                 
-                // Crear tabla usuarios
+                #Crear tabla usuarios
                 $sqlUsuarios = "CREATE TABLE IF NOT EXISTS usuarios (id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(50),
                 nombre VARCHAR(50),
@@ -49,7 +61,7 @@
                     echo '<div class="alert alert-success" role="alert"> Error al crear la tabla usuarios: " . $con->error . "-" </div>';
                 }
                 
-                // Crear tabla tareas
+                #Crear tabla tareas
                 $sqlTareas = "CREATE TABLE IF NOT EXISTS tareas (id INT AUTO_INCREMENT PRIMARY KEY,
                 titulo VARCHAR(50),
                 descripcion VARCHAR(250),
@@ -62,7 +74,21 @@
                 } else {
                     echo '<div class="alert alert-success" role="alert"> Error al crear la tabla tareas: " . $con->error . "-" </div>';
                 }
+
+                #Crear tabla ficheros
+                $sqlFicheros = "CREATE TABLE IF NOT EXISTS ficheros (id INT AUTO_INCREMENT PRIMARY KEY,
+                nombre VARCHAR(100),
+                file VARCHAR(250),
+                descripcion VARCHAR(250),
+                id_tarea INT,
+                FOREIGN KEY (id_tarea) REFERENCES tareas(id))";
+                if ($con->query($sqlFicheros) === TRUE) {
+                    echo '<div class="alert alert-success" role="alert"> Tabla ficheros creada </div>';
+                } else {
+                    echo '<div class="alert alert-success" role="alert"> Error al crear la tabla ficheros: " . $con->error . "-" </div>';
+                }
                 
+                #cerrar conexión
                 $con->close();
                 ?>
             </div>
