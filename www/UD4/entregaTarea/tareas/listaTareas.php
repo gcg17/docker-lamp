@@ -81,6 +81,7 @@ if ($tema == 'dark') {
                                   <td>{$row['estado']}</td>
                                   <td>{$row['username']}</td>
                                   <td>
+                                  <a class='btn btn-sm btn-primary' href='tarea.php?id={$row['id']}' role ='buttom'> Mostrar </a>
                                   <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
                                   <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
                                   </td>
