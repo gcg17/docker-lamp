@@ -42,10 +42,10 @@ if ($tema == 'dark') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Tarea</title>
+    <title>Tarea</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-body>
+<body>
     <div class="container-fluid">
         <?php include ('../componentes/header.php'); ?>
         <div class="row">
@@ -84,32 +84,32 @@ body>
             </table>
         </div>
 
-        <div class="acontainer justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottomon">
+        <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottomon">
             <h3>Archivos Adjuntos</h3>
             
         <?php include('../ficheros/subidaFichForm.php'); ?>
 
             <!-- Lista de archivos -->
             <div class="archivos-lista">
-                <?php require_once ('../ficheros/subidaFichProc.php') 
+                <?php require_once('../ficheros/subidaFichProc.php');
                 $archivos = getArchivos($idTarea);
-                if ($archivos->num_rows > 0):
                 while ($archivo = $archivos->fetch_assoc()):?>
                 <div class="archivo-item">
                     <span><?php echo htmlspecialchars($archivo['nombre']); ?></span>
                     <div class="archivo-acciones">
-                        <a href="<?php echo htmlspecialchars($archivo['ruta']); ?>" download class="btn-descargar">Descargar</a>
+                        <a href="<?php echo htmlspecialchars($archivo['file']); ?>" download class="btn-descargar">Descargar</a>
                         <form action="subidaFichProc.php" method="POST" style="display: inline;">
                             <input type="hidden" name="id_archivo" value="<?php echo $archivo['id']; ?>">
-                            <button type="submit" name="eliminar_archivo" class="btn-eliminar">Eliminar</button>
+                            <button type="submit" class="btn-eliminar:hover">Eliminar</button>
                         </form>
                     </div>
                 </div>
                 <?php endwhile; ?>
             </div>
         </div>
-        <a href="listaTareas.php" class="btn-volver">Volver a la lista</a>
-        <?php include_once ('../componentes/footer.php'); ?>
+        <a href="listaTareas.php" class="btn btn-primary">Volver a la lista</a>
+      </main>
     </div>
+    <?php include_once ('../componentes/footer.php'); ?>
 </body>
 </html>

@@ -4,7 +4,7 @@ require_once("../conexiones/mysqli.php");
 
 function getArchivos($idTarea) {
     $conexion = getMysqliConnection();
-    $sql = "SELECT * FROM archivos WHERE id_tarea = ?";
+    $sql = "SELECT * FROM ficheros WHERE id_tarea = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $idTarea);
     $stmt->execute();
@@ -22,10 +22,11 @@ function subirArchivo($idTarea) {
         
         if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
             $conexion = getMysqliConnection();
-            $sqlInsert = "INSERT INTO archivos (id_tarea, nombre, ruta) VALUES (?, ?, ?)";
+            $sqlInsert = "INSERT INTO ficheros (nombre, file, descripcion, id_tarea) VALUES (?, ?, ?, ?)";
             $stmtInsert = $conexion->prepare($sqlInsert);
-            $stmtInsert->bind_param("iss", $idTarea, $nombreArchivo, $rutaDestino);
+            $stmtInsert->bind_param("sssi", $nombreArchivo, $rutaDestino, $descripcion, $idTarea);
             $stmtInsert->execute();
+            $conexion->close();
         }
         
         header("Location: tarea.php?id=" . $idTarea);
@@ -34,18 +35,34 @@ function subirArchivo($idTarea) {
     return false;
 }
 
-#Procesar eliminación de archivo
 function eliminarArchivo($idTarea) {
     if (isset($_POST['eliminar_archivo'])) {
+        $conexion = getMysqliConnection();
         $idArchivo = $_POST['id_archivo'];
-        $sqlDelete = "DELETE FROM archivos WHERE id = ?";
+        
+        #Obtener el nombre del archivo
+        $sqlSelect = "SELECT file FROM ficheros WHERE id = ?";
+        $stmtSelect = $conexion->prepare($sqlSelect);
+        $stmtSelect->bind_param("i", $idArchivo);
+        $stmtSelect->execute();
+        $result = $stmtSelect->get_result();
+        $file = $result->fetch_assoc();
+        
+        #Eliminar el archivo del sistema
+        if ($file && file_exists($file['file'])) {
+            unlink($file['file']);
+        }
+        
+        #Eliminar el registro de la base de datos
+        $sqlDelete = "DELETE FROM ficheros WHERE id = ?";
         $stmtDelete = $conexion->prepare($sqlDelete);
         $stmtDelete->bind_param("i", $idArchivo);
         $stmtDelete->execute();
+        $conexion->close();
+        
         header("Location: tarea.php?id=" . $idTarea);
         exit();
     }
     return false;
 }
-
 ?>
