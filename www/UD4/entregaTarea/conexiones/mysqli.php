@@ -1,3 +1,13 @@
+<!--mysqli.php -->
+<?php
+#verificar si se ha iniciado sesión
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: sesiones/login.php");
+    exit();
+}
+?>
+
 <?php
 #conexion mediante variables de entorno
 function getMysqliConnection() {

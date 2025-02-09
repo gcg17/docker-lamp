@@ -1,3 +1,12 @@
+<?php
+#verificar si se ha iniciado sesión
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: sesiones/login.php");
+    exit();
+}
+?>
+
 <!--init.php-->
 <!DOCTYPE html>
 <html lang="es">
@@ -51,6 +60,7 @@
                 #Crear tabla usuarios
                 $sqlUsuarios = "CREATE TABLE IF NOT EXISTS usuarios (id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(50),
+                rol INT DEFAULT 0,
                 nombre VARCHAR(50),
                 apellidos VARCHAR(100),
                 contrasena VARCHAR(100))";

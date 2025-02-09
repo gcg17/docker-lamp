@@ -1,3 +1,12 @@
+<?php
+#verificar si se ha iniciado sesión
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: sesiones/login.php");
+    exit();
+}
+?>
+
 <!-- editaUsuario.php -->
 <!DOCTYPE html>
 <html lang="es">

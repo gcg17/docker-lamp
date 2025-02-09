@@ -1,3 +1,13 @@
+<!--pdo.php -->
+<?php
+#verificar si se ha iniciado sesión
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: sesiones/login.php");
+    exit();
+}
+?>
+
 <?php
 function getPDOConnection() {
     $dsn = 'mysql:host=' . getenv('DATABASE_HOST') . ';dbname=' . getenv('DATABASE_NAME');
