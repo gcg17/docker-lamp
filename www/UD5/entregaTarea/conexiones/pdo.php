@@ -4,7 +4,7 @@ function getPDOConnection() {
     $username = getenv('DATABASE_USER');
     $password = getenv('DATABASE_PASSWORD');
 
-#manera alternativa
+        #manera alternativa
         #$dsn = 'mysql:host=' . $_ENV['DATABASE_HOST'] . ';dbname=' . $_ENV['DATABASE_NAME'];
         #$username = $_ENV['DATABASE_USER'];
         #$password = $_ENV['DATABASE_PASSWORD'];
@@ -25,7 +25,7 @@ function listaUsuarios() {
         $sql = 'SELECT * FROM usuarios';
         $stmt = $con->query($sql);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $tareas = $stm;
+        $tareas = $stmt;
         $tareas = array();
         return  $tareas;
         
@@ -52,7 +52,7 @@ function buscarUsuario($id_usuario){
         {
             return null;
         }
-    }catch (PDOExcepcion $e){
+    }catch (PDOException $e){
         return [false, $e -> getMessage()];
     }finally{
         $con = null;

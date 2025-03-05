@@ -1,6 +1,8 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+require_once ('usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -36,21 +38,21 @@ if ($tema == 'dark') {
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             <?php
             
-            require ('../conexiones/pdo.php');
+            require_once ('../conexiones/pdo.php');  
             
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $username = htmlspecialchars($_POST['username']);
-                $nombre = htmlspecialchars($_POST['nombre']);
-                $apellidos = htmlspecialchars($_POST['apellidos']);
-                $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
-                $rol = htmlspecialchars($_POST['rol']);
+                #Construir objeto Usuario con los datos del formulario
+                $usuario = new Usuario(
+                #id es null porque se genera automáticamente en la base de datos
+                $id = null,
+                $username = htmlspecialchars($_POST['username']),
+                $nombre = htmlspecialchars($_POST['nombre']),
+                $apellidos = htmlspecialchars($_POST['apellidos']),
+                $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT),
+                $rol = htmlspecialchars($_POST['rol']));
                 
-                $pdo = getPDOConnection();
-                
-                $sql = "INSERT INTO usuarios (username, nombre, apellidos, contrasena,rol) VALUES (?, ?, ?, ?,?)";
-                
-                $stmt = $pdo->prepare($sql);
-                if ($stmt->execute([$username, $nombre, $apellidos, $contrasena, $rol])) {
+                #Llamar al método crearUsuario de la clase Usuario para añadir el usuario a la base de datos
+                if ($usuario->crearUsuario($usuario)) {
                     echo "Usuario añadido correctamente";
                 } else {
                     echo "Error al añadir el usuario.";

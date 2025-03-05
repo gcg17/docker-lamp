@@ -1,6 +1,8 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+require_once ('usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
