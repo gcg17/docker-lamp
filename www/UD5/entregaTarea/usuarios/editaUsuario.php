@@ -1,6 +1,8 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+require_once ('usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -39,20 +41,20 @@ if ($tema == 'dark') {
                 require ('../conexiones/pdo.php');
 
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $id = (int)$_POST['id'];
-                    $username = htmlspecialchars($_POST['username']);
-                    $nombre = htmlspecialchars($_POST['nombre']);
-                    $apellidos = htmlspecialchars($_POST['apellidos'])
-                    $rol = htmlspecialchars($_POST['rol']);
-                
-                    $pdo = getPDOConnection();
-                    $sql = "UPDATE usuarios SET username = ?, nombre = ?, apellidos = ?, rol=? WHERE id = ?";
-                    
-                    $stmt = $pdo->prepare($sql);
-                    if ($stmt->execute([$username, $nombre, $apellidos, $id, $rol])) {
-                        echo "Usuario actualizado correctamente";
-                    } else {
-                        echo "Error al actualizar el usuario";
+                    #Seleccionar el id del usuario a editar
+                    $usuario = Usuario::seleccionarPorId($_POST['id']);
+
+                    if ($usuario) {
+                        $usuario->setUsername(htmlspecialchars($_POST['username']));
+                        $usuario->setNombre(htmlspecialchars($_POST['nombre']));
+                        $usuario->setApellidos(htmlspecialchars($_POST['apellidos']));
+                        $usuario->setRol((int)$_POST['rol']);  
+                        
+                        if ($usuario->actualizarUsuario()) {  
+                            echo '<div class="alert alert-success">Usuario actualizado correctamente</div>';
+                         } else { 
+                            echo '<div class="alert alert-danger">Error al actualizar el usuario</div>';
+                        }
                     }
                 }
                 ?>
