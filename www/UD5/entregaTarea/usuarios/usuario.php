@@ -20,6 +20,7 @@ class Usuario {
     }
 
     #Métodos
+
     #Metodo para seleccionar usuario por id
     public static function seleccionarPorId(int $id): ?Usuario {
         $pdo = getPDOConnection();
@@ -117,6 +118,14 @@ class Usuario {
             ':contrasena' => $this->contrasena,
             ':rol' => $this->rol
         ]);
+    }
+
+    #Metodo para eliminar usuario de la base de datos
+    public function borrarUsuario(): bool {
+        $pdo = getPDOConnection();
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([':id' => $this->id]);
     }
     
     #Método toString

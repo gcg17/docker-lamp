@@ -1,6 +1,8 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+require_once('usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -36,22 +38,24 @@ if ($tema == 'dark') {
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                require ('../conexiones/pdo.php');
+                require_once ('../conexiones/pdo.php');
 
                 if (isset($_GET['id'])) {
-                    $id = (int)$_GET['id'];
+                    $usuario = Usuario::seleccionarPorId((int)$_GET['id']);
                     $pdo = getPDOConnection();
                 
-                    // Borrar tareas asociadas al usuario
-                    $pdo->prepare("DELETE FROM tareas WHERE id_usuario = ?")->execute([$id]);
-                
-                    // Borrar usuario
-                    $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = ?");
-                    if ($stmt->execute([$id])) {
-                        echo "Usuario y sus tareas asociadas borrados correctamente <br><br>";
-                        echo "<a href='usuarios.php'> <button type='submit' class='btn btn-primary'> Lista de usuarios actualizada </button> </a>";
-                    } else {
-                        echo "Error al borrar el usuario";
+                    if ($usuario) {
+                        #Borrar las tareas asociadas al usuario
+                        $pdo = getPDOConnection();
+                        $pdo->prepare("DELETE FROM tareas WHERE id_usuario = ?")->execute([$usuario->getId()]);
+                        
+                        #Borrar el usuario
+                        if ($usuario->borrarUsuario()) {
+                            echo "<div class='alert alert-success'>Usuario y sus tareas asociadas borrados correctamente</div><br>";
+                            echo "<a href='usuarios.php'> <button type='submit' class='btn btn-primary'> Lista de usuarios actualizada </button> </a>";
+                        } else {
+                            echo "Error al borrar el usuario";
+                        }
                     }
                 }
                 ?>
