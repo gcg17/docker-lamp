@@ -2,6 +2,33 @@
 #Obtener archivos adjuntos
 require_once("../conexiones/mysqli.php");
 
+#Procesar subida de archivo
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['subir_archivo'])) {
+    $idTarea = $_POST['id_tarea'];
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    
+    if (isset($_FILES['archivo'])) {
+        $archivo = $_FILES['archivo'];
+        $nombreArchivo = $archivo['name'];
+        $rutaTemporal = $archivo['tmp_name'];
+        $rutaDestino = "../uploads/" . time() . "_" . $nombreArchivo;
+        
+        if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
+            $conexion = getMysqliConnection();
+            $sql = "INSERT INTO ficheros (nombre, file, descripcion, id_tarea) VALUES (?, ?, ?, ?)";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param("sssi", $nombre, $rutaDestino, $descripcion, $idTarea);
+            
+            if ($stmt->execute()) {
+                header("Location: ../tareas/tarea.php?id=" . $idTarea);
+                exit();
+            }
+            $conexion->close();
+        }
+    }
+}
+
 function getArchivos($idTarea) {
     $conexion = getMysqliConnection();
     $sql = "SELECT * FROM ficheros WHERE id_tarea = ?";
@@ -10,29 +37,8 @@ function getArchivos($idTarea) {
     $stmt->execute();
     $result = $stmt->get_result();
     return $result;
-}
-
-#Procesar subida de archivo
-function subirArchivo($idTarea) {
-    if (isset($_POST['subir_archivo'])) {
-        $archivo = $_FILES['archivo'];
-        $nombreArchivo = $archivo['name'];
-        $rutaTemporal = $archivo['tmp_name'];
-        $rutaDestino = "../uploads/" . time() . "_" . $nombreArchivo;
-        
-        if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
-            $conexion = getMysqliConnection();
-            $sqlInsert = "INSERT INTO ficheros (nombre, file, descripcion, id_tarea) VALUES (?, ?, ?, ?)";
-            $stmtInsert = $conexion->prepare($sqlInsert);
-            $stmtInsert->bind_param("sssi", $nombreArchivo, $rutaDestino, $descripcion, $idTarea);
-            $stmtInsert->execute();
-            $conexion->close();
-        }
-        
-        header("Location: tarea.php?id=" . $idTarea);
-        exit();
-    }
-    return false;
+    $conexion->close();
+    header("Location: ../tareas/tarea.php?id=" . $idTarea);
 }
 
 function eliminarArchivo($idTarea) {
@@ -60,9 +66,10 @@ function eliminarArchivo($idTarea) {
         $stmtDelete->execute();
         $conexion->close();
         
-        header("Location: tarea.php?id=" . $idTarea);
+        header("Location: ../tareas/tarea.php?id=" . $idTarea);
         exit();
     }
     return false;
+    header("Location: ../tareas/tarea.php?id=" . $idTarea);
 }
 ?>

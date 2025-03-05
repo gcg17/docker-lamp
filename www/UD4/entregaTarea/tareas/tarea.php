@@ -94,13 +94,23 @@ if ($tema == 'dark') {
                 <?php require_once('../ficheros/subidaFichProc.php');
                 $archivos = getArchivos($idTarea);
                 while ($archivo = $archivos->fetch_assoc()):?>
-                <div class="archivo-item">
-                    <span><?php echo htmlspecialchars($archivo['nombre']); ?></span>
-                    <div class="archivo-acciones">
-                        <a href="<?php echo htmlspecialchars($archivo['file']); ?>" download class="btn-descargar">Descargar</a>
+                    <div class="d-flex align-items-center gap-3">
+                    <?php if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $archivo['file'])): ?>
+                        <img src="<?php echo htmlspecialchars($archivo['file']); ?>" class="rounded border" style="width: 20%; height: 150px; object-fit: cover;">
+                    </div>
+                    <div class="archivo-acciones d-flex gap-2">
+                    <?php elseif (preg_match('/\.pdf$/i', $archivo['file'])): ?>
+                        <iframe src="<?php echo htmlspecialchars($archivo['file']); ?>" width="20%" height="150" class="border rounded"></iframe>
+                    </div>
+                        <?php else: ?>
+                    <span class="fw-bold text-muted">📄 <?php echo htmlspecialchars($archivo['nombre']); ?></span>
+                    <?php endif; ?>
+                    <div class="archivo-acciones d-flex gap-2">  
+                        <a href="<?php echo htmlspecialchars($archivo['file']); ?>" download class="btn btn-primary btn-sm">Descargar</a>
                         <form action="subidaFichProc.php" method="POST" style="display: inline;">
                             <input type="hidden" name="id_archivo" value="<?php echo $archivo['id']; ?>">
-                            <button type="submit" class="btn-eliminar:hover">Eliminar</button>
+                            <input type="hidden" name="id_tarea" value="<?php echo $idTarea; ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                         </form>
                     </div>
                 </div>
