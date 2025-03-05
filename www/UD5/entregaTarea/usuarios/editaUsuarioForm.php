@@ -38,37 +38,34 @@ if ($tema == 'dark') {
               </div>
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                require ('../conexiones/pdo.php');
+                require_once ('../conexiones/pdo.php');
                 if (isset($_GET['id'])) {
                     $id = (int)$_GET['id'];
 
                     #conectar a la base de datos
                     $pdo = getPDOConnection();
-                    #preparar la consulta
-                    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
-                    #ejecutar la consulta
-                    $stmt->execute([$id]);
-                    $usuario = $stmt->fetch();
+                    #ejecutar el metodo para seleccionar el usuario por id
+                    $usuario = Usuario::seleccionarPorId($id);
                 ?>
                 <form action="editaUsuario.php" method="POST" class="mb-5">
-                    <input type="hidden" name="id" value="<?php echo $usuario['id']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $usuario->getId(); ?>">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="<?php echo $usuario['username']; ?>" required>
+                        <input type="text" name="username" id="username" class="form-control" value="<?php echo $usuario->getUsername(); ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $usuario['nombre']; ?>" required>
+                        <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $usuario->getNombre(); ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="apellidos" class="form-label">Apellidos</label>
-                        <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $usuario['apellidos']; ?>" required>
+                        <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $usuario->getApellidos(); ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="rol" class="form-label">Rol</label>
                         <select name="rol" id="rol" class="form-select" required>
-                            <option value="0" <?php echo ($usuario['rol'] == 0) ? 'selected' : ''; ?>>0 - Usuario</option>
-                            <option value="1" <?php echo ($usuario['rol'] == 1) ? 'selected' : ''; ?>>1 - Administrador</option>
+                            <option value="0" <?php echo ($usuario->getRol() == 0) ? 'selected' : ''; ?>>0 - Usuario</option>
+                            <option value="1" <?php echo ($usuario->getRol() == 1) ? 'selected' : ''; ?>>1 - Administrador</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Actualizar usuario</button>
