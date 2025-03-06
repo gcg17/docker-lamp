@@ -37,8 +37,9 @@ class Usuario {
                 $row['contrasena'],
                 $row['rol']
             );
-        }
-        return null;
+        } else {
+            return null;
+        }   
     }
     #Metodo para seleccionar usuario por username
     public static function seleccionarPorUsername(string $username): ?Usuario {
