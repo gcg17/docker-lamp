@@ -1,6 +1,9 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+include_once ('tareas.php');
+include_once ('../usuarios/usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -49,46 +52,30 @@ if ($tema == 'dark') {
                             </thead>
                             <tbody>
                                 <?php
-                                require ('../conexiones/pdo.php');
-
                                 if (isset($_GET['id_usuario']) && isset($_GET['estado'])) {
-                                    $id = htmlspecialchars($_GET['id_usuario']);
+                                    $id = (int)htmlspecialchars($_GET['id_usuario']);
                                     $estado = htmlspecialchars($_GET['estado']);    
                                  }
-                                    #conexion con PDO
-                                    $pdo = getPDOConnection();
-
-                                    #ejecución de la consulta SQL
-                                    try {
-                                        try {
-                                            $stmt2 = $pdo->prepare("SELECT t.*, u.username FROM tareas t INNER JOIN usuarios u ON t.id_usuario = u.id 
-                                                                    WHERE t.id_usuario = ? AND t.estado = ?");
-                                            $stmt2->execute([$id, $estado]);
-                                            $tareas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                        
-                                            if ($tareas) {
+                                 
+                                 #buscar las tareas por el id del usuario y el estado
+                                 $tareas = Tarea::seleccionarPorIdEstado($id, $estado);
+                                            if (!empty($tareas)) {
                                                 foreach($tareas as $tarea) {
                                                     echo "<tr>
-                                                    <td>{$tarea['id']}</td>
-                                                    <td>{$tarea['titulo']}</td>
-                                                    <td>{$tarea['descripcion']}</td>
-                                                    <td>{$tarea['estado']}</td>
-                                                    <td>{$tarea['username']}</td>
+                                                    <td>{$tarea->getId()}</td>
+                                                    <td>{$tarea->getTitulo()}</td>
+                                                    <td>{$tarea->getDescripcion()}</td>
+                                                    <td>{$tarea->getEstado()}</td>
+                                                    <td>{$tarea->getUsuario()->getUsername()}</td>
                                                     <td>
-                                                    <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$tarea['id']}' role='button'>Editar</a>
-                                                    <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$tarea['id']}' role='button'>Borrar</a>
+                                                    <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$tarea->getId()}' role='button'>Editar</a>
+                                                    <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$tarea->getId()}' role='button'>Borrar</a>
                                                     </td>
                                                     </tr>";
                                                 }
                                             } else {
                                                 echo "<tr><td colspan='6'>No se encontraron tareas que coincidan con los criterios de búsqueda</td></tr>";
                                             }
-                                        } catch (PDOException $e) {
-                                            echo "<tr><td colspan='6'>Error en la consulta: " . $e->getMessage() . "</td></tr>";
-                                        }
-                                    } catch (PDOException $e) {
-                                        echo "<tr><td colspan='6'>Error en la consulta: " . $e->getMessage() . "</td></tr>";
-                                    }
                                 ?>
                             </tbody>
                         </table>

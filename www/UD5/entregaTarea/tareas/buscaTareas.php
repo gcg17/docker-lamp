@@ -1,6 +1,9 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+include_once ('tareas.php');
+include_once ('../usuarios/usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -39,14 +42,25 @@ if ($tema == 'dark') {
                    <div class="mb-3">
                    <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
-                        <?php require_once('../conexiones/mysqli.php');
-                        $usuarios = listaTareas();
-                        while ($row = $usuarios -> fetch_assoc()) { ?>    
-                           <option value="<?php echo htmlspecialchars($row['id']); ?>">
-                           <?php echo htmlspecialchars($row['username']); ?>
-                           </option>
-                           <?php } ?>
+                        <?php 
+                            #crear objeto currentent user (usuario logueado)
+                            $currentUser = Usuario::seleccionarPorId($_SESSION['usuario']['id']);
+                            if ($currentUser->getRol() == 1) {
+                            #listar todos los usuarios si es administrador          
+                            $usuarios = Usuario::listarUsuarios();
+                            } else {
+                            #listar solo el usuario logueado si es usuario normal
+                            $usuarios = $currentUser;
+                            }
+                            foreach ($usuarios as $usuario) { ?>
+                            <option value="<?php echo $usuario->getId(); ?>">
+                                <?php echo $usuario->getUsername(); ?>
+                            </option>
+                            <?php } ?>
                         </select>
+                            <?php if ($_SESSION['rol'] != 1): ?>
+                                <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id']; ?>">
+                                <?php endif; ?>
                     </div>
                     <div class="mb-3">
                         <label for="estado" class="form-label">Estado</label>
