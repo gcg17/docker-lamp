@@ -42,7 +42,6 @@ if ($tema == 'dark') {
 
                 if (isset($_GET['id'])) {
                     $usuario = Usuario::seleccionarPorId((int)$_GET['id']);
-                    $pdo = getPDOConnection();
                 
                     if ($usuario) {
                         #Borrar las tareas asociadas al usuario
@@ -51,7 +50,7 @@ if ($tema == 'dark') {
                         
                         #Borrar el usuario
                         if ($usuario->borrarUsuario()) {
-                            echo "<div class='alert alert-success'>Usuario y sus tareas asociadas borrados correctamente</div><br>";
+                            echo "<div>Usuario y sus tareas asociadas borrados correctamente</div><br>";
                             echo "<a href='usuarios.php'> <button type='submit' class='btn btn-primary'> Lista de usuarios actualizada </button> </a>";
                         } else {
                             echo "Error al borrar el usuario";

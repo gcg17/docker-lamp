@@ -54,7 +54,7 @@ if ($tema == 'dark') {
             </li>
         </ul>
         <div>
-            <form action="/UD4/entregaTarea/cookies/tema.php" method="POST" class="m-3 w-50">
+            <form action="/UD5/entregaTarea/cookies/tema.php" method="POST" class="m-3 w-50">
             <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
                 <option value="light" selected>Claro</option>
                 <option value="dark">Oscuro</option>
@@ -68,16 +68,16 @@ if ($tema == 'dark') {
             } else { ?>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/UD4/entregaTarea/index.php">Home</a>
+                <a class="nav-link" href="/UD5/entregaTarea/index.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/UD4/entregaTarea/tareas/listaTareas.php">Mis Tareas</a>
+                <a class="nav-link" href="/UD5/entregaTarea/tareas/listaTareas.php">Mis Tareas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/UD4/entregaTarea/tareas/nuevaForm.php">Nueva tarea</a>
+                <a class="nav-link" href="/UD5/entregaTarea/tareas/nuevaForm.php">Nueva tarea</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/UD4/entregaTarea/sesiones/logout.php">Salir</a>
+                <a class="nav-link" href="/UD5/entregaTarea/sesiones/logout.php">Salir</a>
             </li>
         </ul>
         <div>

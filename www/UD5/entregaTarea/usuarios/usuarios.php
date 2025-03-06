@@ -1,6 +1,8 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
+require_once ('usuario.php');
+
 if (!isset($_SESSION['usuario'])) {
     header("Location: ../sesiones/login.php");
     exit();
@@ -49,23 +51,23 @@ if ($tema == 'dark') {
                     <tbody>
                         <?php
                         require_once ('../conexiones/pdo.php');
-                        $pdo = getPDOConnection();
-                        $stmt = $pdo->query("SELECT * FROM usuarios");
-                        
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            
+                        #Obtener los usuarios desde la base de datos e imprimirlos en la tabla
+                        $usuarios = Usuario::listarUsuarios();
+
+                        foreach ($usuarios as $usuario) {
                             echo "<tr>
-                            <td>{$row['id']}</td>
-                            <td>{$row['username']}</td>
-                            <td>{$row['nombre']}</td>
-                            <td>{$row['apellidos']}</td>
-                            <td>" . ($row['rol'] == 1 ? 'Administrador' : 'Usuario') . "</td>
+                            <td>{$usuario->getId()}</td>
+                            <td>{$usuario->getUsername()}</td>
+                            <td>{$usuario->getNombre()}</td>
+                            <td>{$usuario->getApellidos()}</td>
+                            <td>" . ($usuario->getRol() == 1 ? 'Administrador' : 'Usuario') . "</td>
                             <td>
-                            <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$row['id']}' role ='buttom'> Editar </a>
-                            <a class='btn btn-sm btn-outline-danger ms-2' href='borraUsuario.php?id={$row['id']}' role ='buttom'> Borrar </a>
+                            <a class='btn btn-sm btn-outline-success' href='editaUsuarioForm.php?id={$usuario->getId()}' role ='buttom'> Editar </a>
+                            <a class='btn btn-sm btn-outline-danger' href='borraUsuario.php?id={$usuario->getId()}' role ='buttom'> Borrar </a>
                             </td>
                             </tr>";
                         }
+
                         ?>
                     </tbody>
                 </table>

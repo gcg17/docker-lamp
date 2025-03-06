@@ -36,10 +36,7 @@ if ($tema == 'dark') {
                     <h2>Gestión de tarea</h2>
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <?php
-            
-            require_once ('../conexiones/pdo.php');  
-            
+            <?php 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 #Construir objeto Usuario con los datos del formulario
                 $usuario = new Usuario(

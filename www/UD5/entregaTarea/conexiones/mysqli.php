@@ -7,7 +7,7 @@ function getMysqliConnection() {
         getenv('DATABASE_PASSWORD'),
         getenv('DATABASE_NAME'));
 
-#manera alternativa
+    #manera alternativa
     #$mysqli = new mysqli(
         #$_ENV['DATABASE_HOST'],
         #$_ENV['DATABASE_USER'],
@@ -88,22 +88,6 @@ function listaTareas() {
     }
 
   }
-
-function nuevaTarea(){
-
-  }
-
-function actualizaTarea(){
-
-  }
-
-function borraTarea(){
-
-  }
-
-function buscaTarea(){
-
-  }  
 
 function buscaUsuariomyslqi($id){
     $conexion = getMysqliConnection();

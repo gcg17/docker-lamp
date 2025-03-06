@@ -38,8 +38,6 @@ if ($tema == 'dark') {
             </div>
             <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                require_once ('../conexiones/pdo.php');
-
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     #Seleccionar el id del usuario a editar
                     $usuario = Usuario::seleccionarPorId($_POST['id']);

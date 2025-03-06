@@ -18,46 +18,4 @@ function getPDOConnection() {
     }
 }
 
-function listaUsuarios() {
-    
-    try{
-        $con = getPDOConnection();
-        $sql = 'SELECT * FROM usuarios';
-        $stmt = $con->query($sql);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $tareas = $stmt;
-        $tareas = array();
-        return  $tareas;
-        
-    } catch (PDOException $e){
-        return [false, $e -> getMessage()];
-    }finally {
-        $con = null;
-    }
-}
-
-function buscarUsuario($id_usuario){
-
-    try{
-        $con = getPDOConnection();
-        $sql = 'SELECT * FROM usuarios WHERE id_usuario = '.$id_usuario;
-        $stmt = $con->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        if ($stmt->rowCount() == 1)
-        {
-            return $stmt->fetch();
-        }
-        else
-        {
-            return null;
-        }
-    }catch (PDOException $e){
-        return [false, $e -> getMessage()];
-    }finally{
-        $con = null;
-    }
-
-}
-
 ?>

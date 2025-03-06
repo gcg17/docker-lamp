@@ -38,12 +38,9 @@ if ($tema == 'dark') {
               </div>
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
-                require_once ('../conexiones/pdo.php');
                 if (isset($_GET['id'])) {
                     $id = (int)$_GET['id'];
 
-                    #conectar a la base de datos
-                    $pdo = getPDOConnection();
                     #ejecutar el metodo para seleccionar el usuario por id
                     $usuario = Usuario::seleccionarPorId($id);
                 ?>
