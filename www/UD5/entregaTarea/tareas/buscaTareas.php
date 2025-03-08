@@ -43,8 +43,9 @@ if ($tema == 'dark') {
                    <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
                         <?php 
-                            #crear objeto currennt user (usuario logueado) - mirasr cual es el error
+                            #crear objeto current user (usuario logueado) - mirasr cual es el error
                             $currentUser = Usuario::seleccionarPorId($_SESSION['id']);
+                            $usuarios = null;
                             #verificar si es administrador o usuario normal
                             if ($currentUser->getRol() == 1) {
                             #listar todos los usuarios si es administrador          
