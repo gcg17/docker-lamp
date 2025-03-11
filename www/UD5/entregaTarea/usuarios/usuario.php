@@ -41,6 +41,7 @@ class Usuario {
             return null;
         }   
     }
+    
     #Metodo para seleccionar usuario por username
     public static function seleccionarPorUsername(string $username): ?Usuario {
         $pdo = getPDOConnection();
