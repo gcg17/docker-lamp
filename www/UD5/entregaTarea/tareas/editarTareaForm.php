@@ -49,11 +49,11 @@ if ($tema == 'dark') {
                     <input type="hidden" name="id" value="<?php echo $tarea->getId(); ?>">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Titulo</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $tarea->getTitulo(); ?>" required>
+                        <input type="text" name="titulo" id="titulo" class="form-control" value="<?php echo $tarea->getTitulo(); ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="apellidos" class="form-label">Descripcion</label>
-                        <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $tarea->getDescripcion(); ?>" required>
+                        <input type="text" name="descripcion" id="descripcion" class="form-control" value="<?php echo $tarea->getDescripcion(); ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="estado" class="form-label">Estado</label>
@@ -71,7 +71,7 @@ if ($tema == 'dark') {
                 </form>
                 <?php
                 } else {
-                    echo '<div class="alert alert-danger">No se especificó un usuario para editar</div>';
+                    echo '<div class="alert alert-danger">No se especificó tarea para editar</div>';
                 }
                 ?>
               </div>
