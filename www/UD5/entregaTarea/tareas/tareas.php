@@ -21,7 +21,8 @@ class Tarea {
     #Metodo para listar tareas
     public static function listarTareas(): array {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id";
+        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id 
+                where id_usuario = ?";
         $stmt = $mysqli->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -46,6 +47,38 @@ class Tarea {
             );
         }
         return $tareas;
+    }
+
+    #Metodo para listar tareas por usuario
+    public static function listarTareasUsuario($id_usuario): array {
+        $mysqli = getMysqliConnection();
+        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $tareas = [];
+        while ($row = $result->fetch_assoc()) {
+            $usuario = new Usuario(
+                $row['id_usuario'],
+                $row['username'],
+                $row['nombre'],
+                $row['apellidos'],
+                $row['contrasena'],
+                $row['rol']
+            );
+            
+            $tareas[] = new Tarea(
+                $row['id'],
+                $row['titulo'],
+                $row['descripcion'],
+                $row['estado'],
+                $usuario
+            );
+        }
+        return $tareas;
+    
     }
 
      #Metodo para seleccionar una tarea por id_usuario y estado

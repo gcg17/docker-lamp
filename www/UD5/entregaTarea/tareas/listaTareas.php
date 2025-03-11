@@ -6,6 +6,8 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+require_once ('tareas.php');
+
 #verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
 $tema = $_COOKIE['tema'] ?? 'light';
 ?>
@@ -50,27 +52,24 @@ if ($tema == 'dark') {
                     <tbody>
                         <?php
                         
-                        require_once ('../conexiones/mysqli.php');
-                        $conexion = getMysqliConnection();
-                        
-                        #sacar listado llamando a la function listaTareas() en mysqli
-                        $resultado = null;
+                        #obtener las tareas desde la base de datos e imprimirlas
+                        $resultados = null;
                         if ($_SESSION['usuario']['rol'] == 1) {    
-                            $resultado = listaTareasAdmin();
+                            $resultados = Tarea :: listarTareas();
                         } else {
-                            $resultado = listaTareasUsuario();
+                            $resultados = Tarea :: listarTareasUsuario($_SESSION['usuario']['id']);
                         }
-                        while ($row = $resultado -> fetch_assoc()) {
+                        foreach ($resultados as $resultado) {
                             echo "<tr>
-                                  <td>{$row['id']}</td>
-                                  <td>{$row['titulo']}</td>
-                                  <td>{$row['descripcion']}</td>
-                                  <td>{$row['estado']}</td>
-                                  <td>{$row['username']}</td>
+                                  <td>{$resultado -> getId()}</td>
+                                  <td>{$resultado -> getTitulo()}</td>
+                                  <td>{$resultado -> getDescripcion()}</td>
+                                  <td>{$resultado -> getEstado()}</td>
+                                  <td>{$resultado -> getUsuario()->getUsername()}</td>
                                   <td>
-                                  <a class='btn btn-sm btn-primary' href='tarea.php?id={$row['id']}' role ='buttom'> Mostrar </a>
-                                  <a class='btn btn-sm btn-outline-success' href='editarTareaForm.php?id={$row['id']}' role ='buttom'> Editar </a>
-                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borrarTarea.php?id={$row['id']}' role ='buttom'> Borrar </a>
+                                  <a class='btn btn-sm btn-primary' href='tarea.php?id={$resultado -> getId()}' role ='buttom'> Mostrar </a>
+                                  <a class='btn btn-sm btn-outline-success' href='editarTareaForm.php?id={$resultado -> getId()}' role ='buttom'> Editar </a>
+                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borrarTarea.php?id={$resultado -> getId()}' role ='buttom'> Borrar </a>
                                   </td>
                                   </tr>";
                              }
