@@ -9,8 +9,9 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-echo "Request Method: " . $_SERVER['REQUEST_METHOD'];
-var_dump($_POST);
+#verificar si se estan pasando bien los datos por POST
+#echo "Request Method: " . $_SERVER['REQUEST_METHOD'];
+#var_dump($_POST);
 
 #verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
 $tema = $_COOKIE['tema'] ?? 'light';
@@ -47,7 +48,6 @@ if ($tema == 'dark') {
                     $tarea = Tarea::seleccionarPorIdTarea((int)$_POST['id']);
 
                     if ($tarea) {
-                        $tarea->setId(htmlspecialchars((int)$_POST['id']));
                         $tarea->setTitulo(htmlspecialchars($_POST['titulo']));
                         $tarea->setDescripcion(htmlspecialchars($_POST['descripcion']));
                         $tarea->setEstado(htmlspecialchars($_POST['estado']));  

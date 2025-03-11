@@ -51,7 +51,7 @@ if ($tema == 'dark') {
                     </thead>
                     <tbody>
                         <?php
-                        
+                        require_once ('../conexiones/mysqli.php');
                         #obtener las tareas desde la base de datos e imprimirlas
                         $resultados = null;
                         if ($_SESSION['usuario']['rol'] == 1) {    
@@ -67,9 +67,9 @@ if ($tema == 'dark') {
                                   <td>{$resultado -> getEstado()}</td>
                                   <td>{$resultado -> getUsuario()->getUsername()}</td>
                                   <td>
-                                  <a class='btn btn-sm btn-primary' href='tarea.php?id={$resultado -> getId()}' role ='buttom'> Mostrar </a>
-                                  <a class='btn btn-sm btn-outline-success' href='editarTareaForm.php?id={$resultado -> getId()}' role ='buttom'> Editar </a>
-                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borrarTarea.php?id={$resultado -> getId()}' role ='buttom'> Borrar </a>
+                                  <a class='btn btn-sm btn-primary' href='tarea.php?id={$resultado->getId()}' role ='buttom'> Mostrar </a>
+                                  <a class='btn btn-sm btn-outline-success' href='editarTareaForm.php?id={$resultado->getId()}' role ='buttom'> Editar </a>
+                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borrarTarea.php?id={$resultado->getId()}' role ='buttom'> Borrar </a>
                                   </td>
                                   </tr>";
                              }

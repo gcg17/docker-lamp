@@ -1,6 +1,7 @@
 <?php
 
 require_once ('../conexiones/mysqli.php');
+require_once ('../usuarios/usuario.php');
 
 class Tarea {
     private int $id;
@@ -21,8 +22,9 @@ class Tarea {
     #Metodo para listar tareas
     public static function listarTareas(): array {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id 
-                where id_usuario = ?";
+        $sql = "SELECT t.id AS tareas_id, t.titulo, t.descripcion, t.estado,
+               u.id AS user_id, u.username, u.nombre, u.apellidos, u.contrasena, u.rol
+               FROM tareas t JOIN usuarios u ON t.id_usuario = u.id";
         $stmt = $mysqli->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -30,7 +32,7 @@ class Tarea {
         $tareas = [];
         while ($row = $result->fetch_assoc()) {
             $usuario = new Usuario(
-                $row['id_usuario'],
+                $row['user_id'],
                 $row['username'],
                 $row['nombre'],
                 $row['apellidos'],
@@ -39,7 +41,7 @@ class Tarea {
             );
             
             $tareas[] = new Tarea(
-                $row['id'],
+                $row['tareas_id'],
                 $row['titulo'],
                 $row['descripcion'],
                 $row['estado'],
@@ -52,7 +54,10 @@ class Tarea {
     #Metodo para listar tareas por usuario
     public static function listarTareasUsuario($id_usuario): array {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id";
+        $sql = "SELECT t.id AS tareas_id, t.titulo, t.descripcion, t.estado,
+               u.id AS user_id, u.username, u.nombre, u.apellidos, u.contrasena, u.rol 
+               FROM tareas t JOIN usuarios u ON t.id_usuario = u.id
+               where id_usuario = ?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
@@ -61,7 +66,7 @@ class Tarea {
         $tareas = [];
         while ($row = $result->fetch_assoc()) {
             $usuario = new Usuario(
-                $row['id_usuario'],
+                $row['user_id'],
                 $row['username'],
                 $row['nombre'],
                 $row['apellidos'],
@@ -70,7 +75,7 @@ class Tarea {
             );
             
             $tareas[] = new Tarea(
-                $row['id'],
+                $row['tareas_id'],
                 $row['titulo'],
                 $row['descripcion'],
                 $row['estado'],
@@ -84,7 +89,8 @@ class Tarea {
      #Metodo para seleccionar una tarea por id_usuario y estado
      public static function seleccionarPorIdTarea(int $id_tarea): ?Tarea {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t  
+        $sql = "SELECT t.id AS tareas_id, t.titulo, t.descripcion, t.estado,
+                u.id AS user_id, u.username, u.nombre, u.apellidos, u.contrasena, u.rol FROM tareas t  
                 INNER JOIN usuarios u ON t.id_usuario = u.id
                 WHERE t.id = ?";
                 
@@ -95,7 +101,7 @@ class Tarea {
         
         if($row = $result->fetch_assoc()) {
             $usuario = new Usuario(
-                $row['id_usuario'],
+                $row['user_id'],
                 $row['username'],
                 $row['nombre'],
                 $row['apellidos'],
@@ -104,7 +110,7 @@ class Tarea {
             );
             
             return new Tarea(
-                $row['id'],
+                $row['tareas_id'],
                 $row['titulo'],
                 $row['descripcion'],
                 $row['estado'],
@@ -118,7 +124,8 @@ class Tarea {
     #Metodo para seleccionar una tarea por id_usuario y estado
     public static function seleccionarPorIdEstado(int $id_usuario, string $estado): array {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t 
+        $sql = "SELECT t.id AS tareas_id, t.titulo, t.descripcion, t.estado,
+                u.id AS user_id, u.username, u.nombre, u.apellidos, u.contrasena, u.rol FROM tareas t 
                 INNER JOIN usuarios u ON t.id_usuario = u.id 
                 WHERE t.id_usuario = ? AND t.estado = ?";
                 
@@ -130,7 +137,7 @@ class Tarea {
         $tareas = [];
         while ($row = $result->fetch_assoc()) {
             $usuario = new Usuario(
-                $row['id_usuario'],
+                $row['user_id'],
                 $row['username'],
                 $row['nombre'],
                 $row['apellidos'],
@@ -139,7 +146,7 @@ class Tarea {
             );
             
             $tareas[] = new Tarea(
-                $row['id'],
+                $row['tareas_id'],
                 $row['titulo'],
                 $row['descripcion'],
                 $row['estado'],
@@ -152,7 +159,9 @@ class Tarea {
     #Metodo para seleccionar tareas por titulo
     public static function seleccionarPorTitulo(string $titulo): array {
         $mysqli = getMysqliConnection();
-        $sql = "SELECT t.*, u.* FROM tareas t JOIN usuarios u ON t.id_usuario = u.id WHERE t.titulo LIKE ?";
+        $sql = "SELECT t.id AS tareas_id, t.titulo, t.descripcion, t.estado,
+               u.id AS user_id, u.username, u.nombre, u.apellidos, u.contrasena, u.rol 
+               FROM tareas t JOIN usuarios u ON t.id_usuario = u.id WHERE t.titulo LIKE ?";
         $stmt = $mysqli->prepare($sql);
         $tituloParam = "%$titulo%";
         $stmt->bind_param("s", $tituloParam);
@@ -162,7 +171,7 @@ class Tarea {
         $tareas = [];
         while ($row = $result->fetch_assoc()) {
             $usuario = new Usuario(
-                $row['id_usuario'],
+                $row['user_id'],
                 $row['username'],
                 $row['nombre'],
                 $row['apellidos'],
@@ -171,7 +180,7 @@ class Tarea {
             );
             
             $tareas[] = new Tarea(
-                $row['id'],
+                $row['tareas_id'],
                 $row['titulo'],
                 $row['descripcion'],
                 $row['estado'],
@@ -186,12 +195,14 @@ class Tarea {
         $mysqli = getMysqliConnection();
         $sql = "UPDATE tareas SET titulo = ?, descripcion = ?, estado = ?, id_usuario = ? WHERE id = ?";
         
+        #si da error al hacer get un atributo de un objeto debemos inicializarlo y darle valor
         $stmt = $mysqli->prepare($sql);
+        $userId = $this->usuario->getId();
         $stmt->bind_param("sssii", 
             $this->titulo,
             $this->descripcion,
             $this->estado,
-            $this->usuario->getId(),
+            $userId,
             $this->id
         );
         return $stmt->execute();
@@ -211,6 +222,7 @@ class Tarea {
     public function getDescripcion(): string { return $this->descripcion; }
     public function getEstado(): string { return $this->estado; }
     public function getUsuario(): Usuario { return $this->usuario; }
+
 
     public function setTitulo(string $titulo) { $this->titulo = $titulo; }
     public function setDescripcion(string $descripcion) { $this->descripcion = $descripcion; }

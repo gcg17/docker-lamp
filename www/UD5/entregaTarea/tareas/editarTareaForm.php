@@ -1,7 +1,6 @@
 <?php
 #verificar si se ha iniciado sesión
 session_start();
-require_once ('../usuarios/usuario.php');
 require_once ('tareas.php');
 
 if (!isset($_SESSION['usuario'])) {
@@ -40,7 +39,7 @@ if ($tema == 'dark') {
               <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <?php
                 if (isset($_GET['id'])) {
-                    $id = (int)$_GET['id'];
+                    $id = (int)$_GET['id'];;
 
                     #ejecutar el metodo para seleccionar la tarea por id_usuario
                     $tarea = Tarea::seleccionarPorIdTarea($id);
