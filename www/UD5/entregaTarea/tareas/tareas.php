@@ -48,6 +48,40 @@ class Tarea {
         return $tareas;
     }
 
+     #Metodo para seleccionar una tarea por id_usuario y estado
+     public static function seleccionarPorIdTarea(int $id_tarea): ?Tarea {
+        $mysqli = getMysqliConnection();
+        $sql = "SELECT t.*, u.* FROM tareas t  
+                INNER JOIN usuarios u ON t.id_usuario = u.id
+                WHERE t.id = ?";
+                
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $id_tarea);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if($row = $result->fetch_assoc()) {
+            $usuario = new Usuario(
+                $row['id_usuario'],
+                $row['username'],
+                $row['nombre'],
+                $row['apellidos'],
+                $row['contrasena'],
+                $row['rol']
+            );
+            
+            return new Tarea(
+                $row['id'],
+                $row['titulo'],
+                $row['descripcion'],
+                $row['estado'],
+                $usuario
+            );
+        } else {
+             return null;
+        }
+    }
+    
     #Metodo para seleccionar una tarea por id_usuario y estado
     public static function seleccionarPorIdEstado(int $id_usuario, string $estado): array {
         $mysqli = getMysqliConnection();
