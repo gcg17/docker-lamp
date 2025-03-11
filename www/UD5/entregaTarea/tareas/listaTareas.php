@@ -69,8 +69,8 @@ if ($tema == 'dark') {
                                   <td>{$row['username']}</td>
                                   <td>
                                   <a class='btn btn-sm btn-primary' href='tarea.php?id={$row['id']}' role ='buttom'> Mostrar </a>
-                                  <a class='btn btn-sm btn-outline-success' href='editaTareaForm.php?id={$row['id']}' role ='buttom'> Editar </a>
-                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borraTarea.php?id={$row['id']}' role ='buttom'> Borrar </a>
+                                  <a class='btn btn-sm btn-outline-success' href='editarTareaForm.php?id={$row['id']}' role ='buttom'> Editar </a>
+                                  <a class='btn btn-sm btn-outline-danger ms-2' href='borrarTarea.php?id={$row['id']}' role ='buttom'> Borrar </a>
                                   </td>
                                   </tr>";
                              }

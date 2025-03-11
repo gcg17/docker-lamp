@@ -56,12 +56,16 @@ if ($tema == 'dark') {
                         <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $tarea->getDescripcion(); ?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="apellidos" class="form-label">Estado</label>
-                        <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $tarea->getEstado(); ?>" required>
-                    </div>
+                        <label for="estado" class="form-label">Estado</label>
+                        <select name="estado" id="estado" class="form-select" required>
+                            <option value="pendiente" <?php echo ($tarea-> getEstado() == 'pendiente') ? 'selected' : ''; ?>>Pendiente</option>
+                            <option value="en_proceso" <?php echo ($tarea-> getEstado() == 'en_proceso') ? 'selected' : ''; ?>>En proceso</option>
+                            <option value="completada" <?php echo ($tarea-> getEstado() == 'completada') ? 'selected' : ''; ?>>Completada</option>
+                        </select>
+                    </div>  
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="<?php echo $tarea->getUsuario()-> getUsername(); ?>" required>
+                        <input type="text" name="username" id="username" class="form-control bg-light text-secondary fw-bold border-secondary" value="<?php echo $tarea->getUsuario()-> getUsername(); ?>" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Actualizar tarea</button>
                 </form>
