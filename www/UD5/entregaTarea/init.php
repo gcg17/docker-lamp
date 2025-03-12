@@ -6,6 +6,12 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+#Redirigir a index si el usuario no es administrador
+if ($_SESSION['usuario']['rol'] != 1) {
+    header("Location: index.php");
+    exit();
+}
+
 #verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
 $tema = $_COOKIE['tema'] ?? 'light';
 ?>
@@ -75,7 +81,7 @@ if ($tema == 'dark') {
                 contrasena VARCHAR(100))";
                 
                 if ($con->query($sqlUsuarios) === TRUE) {
-                    echo '<div class="alert alert-success" role="alert"> Tabla usuarios creada </div>';
+                    echo '<div class="alert alert-success" role="alert"> Tabla usuarios creada</div>';
                 } else {
                     echo '<div class="alert alert-success" role="alert"> Error al crear la tabla usuarios: " . $con->error . "-" </div>';
                 }

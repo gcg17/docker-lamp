@@ -56,9 +56,9 @@ if ($tema == 'dark') {
         <div>
             <form action="/UD5/entregaTarea/cookies/tema.php" method="POST" class="m-3 w-50">
             <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
-                <option value="light" selected>Claro</option>
+                <option value="light">Claro</option>
                 <option value="dark">Oscuro</option>
-                <option value="auto">Automático</option>
+                <option value="auto" selected>Automático</option>
             </select>
             <button type="submit" class="btn btn-primary w-100">Aplicar</button>
             </form>
@@ -83,9 +83,9 @@ if ($tema == 'dark') {
         <div>
         <form action="cookies/tema.php" method="POST" class="m-3 w-50">
             <select id="tema" name="tema" class="form-select mb-2" aria-label="Selector de tema">
-                <option value="light" selected>Claro</option>
+                <option value="light">Claro</option>
                 <option value="dark">Oscuro</option>
-                <option value="auto">Automático</option>
+                <option value="auto" selected>Automático</option>
             </select>
             <button type="submit" class="btn btn-primary w-100">Aplicar</button>
         </form>
