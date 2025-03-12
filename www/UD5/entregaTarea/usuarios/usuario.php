@@ -42,6 +42,35 @@ class Usuario {
         }   
     }
     
+    #Metodo opara validar datos de usuario
+
+    public static function validate (array $data): array {
+        $errors = [];
+        if (empty($data['username'])) {
+            $errors[] = 'El campo de nombre de usuario es obligatorio.';
+        }
+
+        if (empty($data['nombre'])) {
+            $errors[] = 'El campo de nombre es obligatorio.';
+        }
+
+        if (empty($data['apellidos'])) {
+            $errors[] = 'El campo de apellidos es obligatorio.';
+        }
+
+        if (empty($data['contrasena'])) {
+            $errors[] = 'El campo de contraseña es obligatorio.';
+        }
+
+        if (empty($data['rol'])) {
+            $errors[] = 'El campo de rol es obligatorio.';
+        } elseif (!in_array($data['rol'], [0, 1])) {
+            $errors[] = 'El rol asignado no es válido.';
+        }
+
+        return $errors;
+    }
+
     #Metodo para seleccionar usuario por username
     public static function seleccionarPorUsername(string $username): ?Usuario {
         $pdo = getPDOConnection();
@@ -84,7 +113,7 @@ class Usuario {
     }
 
 
-    #Metodo para crear usuario en la base de datos
+    #Metodo para insertar (crear) usuario en la base de datos
     public function crearUsuario(Usuario $usuario): bool {
         $sql = "INSERT INTO usuarios (username, nombre, apellidos, contrasena, rol) 
                 VALUES (:username, :nombre, :apellidos, :contrasena, :rol)";
