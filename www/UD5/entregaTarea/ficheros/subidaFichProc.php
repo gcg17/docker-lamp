@@ -4,6 +4,7 @@ require_once("../conexiones/mysqli.php");
 
 #Procesar subida de archivo
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['subir_archivo'])) {
+    
     $idTarea = $_POST['id_tarea'];
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];

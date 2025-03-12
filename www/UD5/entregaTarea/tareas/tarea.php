@@ -14,17 +14,11 @@ if (!$idTarea) {
     exit();
 }
 
+require_once ("../tareas/tareas.php");
+require_once('../ficheros/subidaFichProc.php');
+require_once('../ficheros/fichero.php');
 #Obtener detalles de la tarea
-$conexion = getMysqliConnection();
-$sql = "SELECT t.*, u.nombre as nombre_usuario 
-        FROM tareas t 
-        JOIN usuarios u ON t.id_usuario = u.id 
-        WHERE t.id = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $idTarea);
-$stmt->execute();
-$resultado = $stmt->get_result();
-$tarea = $resultado->fetch_assoc();
+$tarea = Tarea:: seleccionarPorIdTarea($idTarea);
 
 #verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
 $tema = $_COOKIE['tema'] ?? 'light';
@@ -60,38 +54,48 @@ if ($tema == 'dark') {
                     <thead class="thead">
                         <tr>
                             <th>Título</th>
-                            <td><?php echo htmlspecialchars($tarea['titulo']); ?></td>
+                            <td><?php echo htmlspecialchars($tarea -> getTitulo()); ?></td>
                         </tr>
                     </thead>
                     <thead class="thead">
                         <tr>
                             <th>Descripción</th>
-                            <td><?php echo htmlspecialchars($tarea['descripcion']); ?></td>
+                            <td><?php echo htmlspecialchars($tarea -> getDescripcion()); ?></td>
                         </tr>
                     </thead>
                     <thead class="thead">
                         <tr>
                             <th>Estado</th>
-                            <td><?php echo htmlspecialchars($tarea['estado']); ?></td>
+                            <td><?php echo htmlspecialchars($tarea -> getEstado()); ?></td>
                         </tr>
                     </thead>
                     <thead class="thead">
                         <tr>
                             <th>Usuario</th>
-                            <td><?php echo htmlspecialchars($tarea['nombre_usuario']); ?></td>
+                            <td><?php echo htmlspecialchars($tarea -> getUsuario()-> getUsername()); ?></td>
                         </tr>
                     </thead>
             </table>
         </div>
 
-        <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottomon">
-            <h3>Archivos Adjuntos</h3>
-            
-        <?php include('../ficheros/subidaFichForm.php'); ?>
+        <!-- Formulario de subida de archivos -->
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Archivos Adjuntos</h5>
+            </div>
+            <div class="card-body">
+                <?php include('../ficheros/subidaFichForm.php'); ?>
+            </div>
+        </div>
 
             <!-- Lista de archivos -->
-            <div class="archivos-lista">
-                <?php require_once('../ficheros/subidaFichProc.php');
+            <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Archivos Adjuntos</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                <?php 
                 $archivos = getArchivos($idTarea);
                 while ($archivo = $archivos->fetch_assoc()):?>
                     <div class="d-flex align-items-center gap-3">

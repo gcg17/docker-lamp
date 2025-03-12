@@ -4,7 +4,7 @@ require_once('../login/sesiones.php');
 require_once('../modelo/entity/Fichero.php');
 require_once('../modelo/pdo.php');
 require_once('../modelo/FicherosDBImp.php');
-require_once('../exceptions/DatabaseException.php');
+require_once('../modelo/exceptions/DatabaseException.php');
 
 $directorioDestino = "files/"; // Carpeta donde se guardarán los archivos --> revisar permisos si da error
 

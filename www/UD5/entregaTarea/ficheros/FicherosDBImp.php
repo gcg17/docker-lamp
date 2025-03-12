@@ -1,5 +1,10 @@
 <?php
-require_once '../interfaces/FicherosDBInt.php';
+require_once __DIR__.'/FicherosDBInt.php';
+require_once __DIR__. '/mysqli.php';
+require_once __DIR__. '/pdo.php';
+require_once __DIR__. '/tarea.php';
+require_once __DIR__. '/usuario.php';
+require_once __DIR__. '/fichero.php';
 
 class FicherosDBImp implements FicherosDBInt {
     private PDO $db;
@@ -11,7 +16,22 @@ class FicherosDBImp implements FicherosDBInt {
     public function listaFicheros($id_tarea): array {
         $stmt = $this->db->prepare("SELECT * FROM ficheros WHERE tarea_id = ?");
         $stmt->execute([$id_tarea]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Fichero');
+        
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $ficheros = array();
+
+        while ($row = $stmt->fetch()) {
+            $fichero = new Fichero
+            ($row['id'], $row['nombre'], $row['file'], $row['descripcion']);
+
+            #Obtener tarea asociada
+            $tarea = Tarea::seleccionarPorIdTarea($row['tarea_id']);
+            $fichero->setTarea($tarea);
+
+            array_push($ficheros, $fichero);
+
+        }
+        return $ficheros;
     }
 
     public function buscaFichero($id): Fichero {
