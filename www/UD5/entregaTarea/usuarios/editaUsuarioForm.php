@@ -8,6 +8,13 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+
+#Restrigir acceso si no es administrador
+if ($_SESSION ['usuario']['rol'] != 1) {
+    header("Location: ../index.php");
+    exit();
+}
+
 #verificar si hay un tema guardado en las cookies sino se establece el tema por defecto
 $tema = $_COOKIE['tema'] ?? 'light';
 ?>
