@@ -121,7 +121,9 @@ if ($tema == 'dark') {
                 <?php endwhile; ?>
             </div>
         </div>
+        <div class="container justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
         <a href="listaTareas.php" class="btn btn-primary">Volver a la lista</a>
+        </div>
       </main>
     </div>
     <?php include_once ('../componentes/footer.php'); ?>
