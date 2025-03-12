@@ -42,8 +42,10 @@ if ($tema == 'dark') {
                    <div class="mb-3">
                    <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
+                        <option value=""selected disabled>Selecciona un usuario</option>
                         <?php 
-                             if (isset($_SESSION['usuario']['id'])) {
+
+                            if (isset($_SESSION['usuario'])) {
                                 $id = (int)$_SESSION['usuario']['id'];
                              }
             
@@ -66,10 +68,11 @@ if ($tema == 'dark') {
                             <option value="<?php echo $usuario->getId(); ?>">
                                 <?php echo $usuario->getUsername(); ?>
                             </option>
-                            <?php } ?>
+
+                        <?php } ?>
                         </select>
                             <?php if ($currentUser -> getRol() != 1): ?>
-                                <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id']; ?>">
+                                <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['usuario']['id']; ?>">
                                 <?php endif; ?>
                     </div>
                     <div class="mb-3">

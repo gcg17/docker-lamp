@@ -16,6 +16,7 @@ function comprobar_usuario($nombre, $pass) {
             #Verificar la contraseña con hash
             if (password_verify($pass, $usuario['contrasena'])) {
                 return [
+                    'id' => $usuario['id'],
                     'nombre' => $usuario['username'],
                     'rol' => $usuario['rol']
                 ];
