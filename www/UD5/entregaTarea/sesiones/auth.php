@@ -23,8 +23,7 @@ function comprobar_usuario($nombre, $pass) {
             }
         }
         return false;
-    }
-    catch(PDOException $e) {
+    }catch(PDOException $e) {
         return false;
     }
     finally {
