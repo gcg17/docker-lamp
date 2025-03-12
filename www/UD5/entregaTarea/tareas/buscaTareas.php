@@ -43,17 +43,24 @@ if ($tema == 'dark') {
                    <label for="id_usuario" class="form-label">Usuario</label>
                         <select name="id_usuario" id="id_usuario" class="form-select">
                         <?php 
+                             if (isset($_SESSION['usuario']['id'])) {
+                                $id = (int)$_SESSION['usuario']['id'];
+                             }
+            
                             #crear objeto current user (usuario logueado) - mirasr cual es el error
-                            $currentUser = Usuario::seleccionarPorId($_SESSION['id']);
-                            $usuarios = null;
+                            $currentUser = Usuario::seleccionarPorId($id);
+
                             #verificar si es administrador o usuario normal
                             if ($currentUser->getRol() == 1) {
+
                             #listar todos los usuarios si es administrador          
                             $usuarios = $currentUser::listarUsuarios();
                             } else {
+
                             #listar solo el usuario logueado si es usuario normal
                             $usuarios = array($currentUser);
                             }
+
                             #Recorrer los usuarios y mostrarlos en el select
                             foreach ($usuarios as $usuario){ ?>
                             <option value="<?php echo $usuario->getId(); ?>">
