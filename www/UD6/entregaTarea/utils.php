@@ -1,24 +1,21 @@
 <?php
 
 require_once 'flight/Flight.php';
-
-Flight::map('auth', function () {
-    $db = Flight::get('pdo');
-    $token = Flight::request()->getHeader('X-Token');
-
-    if (!$token) {
-        Flight::json(['error' => 'Token requerido'], 401);
-        exit;
+function validarUsuario($nombre, $email, $password) {
+    $validacion= [true];
+    $errores= [];
+    if(!isset($nombre) || is_null($nombre) || !is_string($nombre) || empty($nombre) ) {
+        $validacion[0]= false;
+        array_push($errores, 'El nombre no es valido');
     }
-
-    $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
-    $stmt->execute([$token]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
-        Flight::json(['error' => 'Token inválido'], 401);
-        exit;
+    if(!isset($email) || is_null($email) || !is_string($email) || empty($email)) {
+        $validacion[0]= false;
+        array_push($errores, 'El email no es valido');
     }
-
-    Flight::set('user', $user);
-});
+    if(!isset($password) || is_null($password) || !is_string($password) || empty($password)) {
+        $validacion[0]= false;
+        array_push($errores, 'La contraseña no es valida');
+    }
+    array_push($validacion, $errores);
+    return $validacion;
+}

@@ -5,74 +5,146 @@ require_once(__DIR__ . '/../utils.php');
 require_once (__DIR__ . '/../conexion/db.php');
 
 Flight::route('GET /contactos', function () {
-    Flight::auth();
     $db = Flight::get('pdo');
-    $user = Flight::get('user');
-    $id = Flight::request()->query['id'] ?? null;
+    $token = Flight::request()->getHeader('X-Token');
+    
+    try{
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        Flight::json('Error en el Token' . $e->getMessage());
+        return;
+    }
 
-    if ($id) {
-        $stmt = $db->prepare("SELECT * FROM contactos WHERE id = ? AND usuario_id = ?");
-        $stmt->execute([$id, $user['id']]);
-        $contacto = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$contacto) {
-            Flight::json(['error' => 'Contacto no encontrado'], 404);
-            return;
-        }
-        Flight::json($contacto);
-    } else {
+    try{
         $stmt = $db->prepare("SELECT * FROM contactos WHERE usuario_id = ?");
         $stmt->execute([$user['id']]);
-        Flight::json($stmt->fetchAll(PDO::FETCH_ASSOC));
+        $contacto = $stmt->fetch(PDO::FETCH_ASSOC);
+        Flight::json($contacto);
+        return;
+
+    } catch (Exception $e) {
+        Flight::json('Error al listar contactos' . $e->getMessage());
+        return;
     }
+});
+
+Flight::route('GET /contactos(/@id)', function ($id=null) {
+    $db = Flight::get('pdo');
+    $token = Flight::request()->getHeader('X-Token');
+    
+    try{
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        Flight::json(['Error en el Token'],401 . $e->getMessage());
+        return;
+    }
+
+    try{
+        $stmt = $db->prepare("SELECT * FROM contactos WHERE id = :id AND usuario_id = :usuario_id");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':usuario_id', $user['id']);
+        $stmt->execute();
+        $contacto = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if(!$contacto){
+        Flight::json(['No se encontro el contacto'], 404);
+        return;
+    } else {
+        Flight::json($contacto);
+        return;
+    }
+
+    } catch (Exception $e) {
+        Flight::json('Error al listar contactos' . $e->getMessage());
+        return;
+}
+
+  
 });
 
 Flight::route('POST /contactos', function () {
-    Flight::auth();
     $db = Flight::get('pdo');
-    $user = Flight::get('user');
-    $data = Flight::request()->data;
+    $token = Flight::request()->getHeader('X-Token');
+    $nombre = Flight::request()->data->nombre;
+    $email = Flight::request()->data->email;
+    $telefono = Flight::request()->data->telefono;
 
-    $stmt = $db->prepare("INSERT INTO contactos (nombre, telefono, email, usuario_id, created_at) VALUES (?, ?, ?, ?, NOW())");
-    $stmt->execute([$data['nombre'], $data['telefono'], $data['email'], $user['id']]);
-
-    Flight::json(['message' => 'Contacto añadido']);
+    try{
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        Flight::json(['Error en el Token'],401 . $e->getMessage());
+        return;
+    }
+    
+    try {
+        $stmt = $db->prepare("INSERT INTO contactos (nombre, telefono, email, usuario_id, created_at) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->execute([$nombre, $telefono, $email, $user['id']]);
+        Flight :: json ('Contacto añadido');
+        return;
+    
+    } catch (Exception $e) {
+        Flight::json('Error al añadir el contacto' . $e->getMessage());
+        return;
+    }
 });
-
-Flight::route('PUT /contactos', function () {
+Flight::route('PUT /contactos(/@id)', function ($id=null) {
     Flight::auth();
     $db = Flight::get('pdo');
-    $user = Flight::get('user');
-    $data = Flight::request()->data;
+    $user = Flight::get('usuario');
+    $token = Flight::request()->getHeader('X-Token');
+    $nombre = Flight::request()->data->nombre;
+    $email = Flight::request()->data->email;
+    $telefono = Flight::request()->data->telefono;
 
-    $stmt = $db->prepare("SELECT * FROM contactos WHERE id = ? AND usuario_id = ?");
-    $stmt->execute([$data['id'], $user['id']]);
-    if (!$stmt->fetch()) {
-        Flight::json(['error' => 'No autorizado'], 403);
+    try{
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        Flight::json(['Error en el Token'],401 . $e->getMessage());
         return;
     }
 
-    $update = $db->prepare("UPDATE contactos SET nombre = ?, telefono = ?, email = ? WHERE id = ?");
-    $update->execute([$data['nombre'], $data['telefono'], $data['email'], $data['id']]);
+    try{
+    $update = $db->prepare("UPDATE contactos SET nombre = ?, telefono = ?, email = ? WHERE id = ? AND usuario_id = ?");
+    $update->execute([$nombre, $telefono, $email, $id ,$user['id']]);
 
-    Flight::json(['message' => 'Contacto actualizado']);
+    Flight::json('Contacto actualizado');
+
+    } catch (Exception $e) {
+        Flight::json('Error al actualizar el contacto ' . $e->getMessage());
+        return;
+    }
 });
 
 Flight::route('DELETE /contactos', function () {
-    Flight::auth();
     $db = Flight::get('pdo');
-    $user = Flight::get('user');
-    $id = Flight::request()->query['id'];
+    $token = Flight::request()->getHeader('X-Token');
+    $id = Flight::request()-> data->id;
 
-    $stmt = $db->prepare("SELECT * FROM contactos WHERE id = ? AND usuario_id = ?");
-    $stmt->execute([$id, $user['id']]);
-    if (!$stmt->fetch()) {
-        Flight::json(['error' => 'No autorizado'], 403);
+    try{
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE token = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        Flight::json(['Error en el Token'],401 . $e->getMessage());
         return;
     }
 
-    $delete = $db->prepare("DELETE FROM contactos WHERE id = ?");
-    $delete->execute([$id]);
+    try{
+    $delete = $db->prepare("DELETE FROM contactos WHERE id = ? AND usuario_id = ?");
+    $delete->execute([$id, $user['id']]);
 
-    Flight::json(['message' => 'Contacto eliminado']);
+    Flight::json('Contacto eliminado');
+
+    }catch (Exception $e) {
+        Flight::json('Error al eliminar el contacto ' . $e->getMessage());
+        return;
+    }
 });
