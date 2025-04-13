@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__.'Flight.php';
+require_once(__DIR__ . '/../flight/Flight.php');
+
 
 $host = $_ENV['DATABASE_HOST'];
 $name = $_ENV['DATABASE_NAME'];
