@@ -5,7 +5,7 @@
 require_once 'flight/Flight.php';
 
 $host = $_ENV['DATABASE_HOST'];
-$name = $_ENV['DATABASE_TEST'];
+$name = $_ENV['DATABASE_NAME'];
 $user = $_ENV['DATABASE_USER'];
 $pass = $_ENV['DATABASE_PASSWORD'];
 
@@ -21,7 +21,7 @@ Flight::route('GET /clientes(/@id)', function($id = null) {
     }
     else
     {
-        $sentencia = Flight::db()->prepare("SELECT * FROM clientes");
+        $sentencia = Flight::db()->prepare("SELECT * FROM clientes");   
         $sentencia->execute();
         $datos = $sentencia->fetchAll();
     }
