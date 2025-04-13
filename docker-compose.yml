@@ -6,8 +6,8 @@ services:
         #command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_DATABASE: agenda
-            MYSQL_USER: agenda
-            MYSQL_PASSWORD: agenda
+            MYSQL_USER: coelgio
+            MYSQL_PASSWORD: colegio
             MYSQL_ROOT_PASSWORD: test 
         volumes:
             - ./dump:/docker-entrypoint-initdb.d
