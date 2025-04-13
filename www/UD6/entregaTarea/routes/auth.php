@@ -1,8 +1,8 @@
 <?php
 
-require_once '../flight/Flight.php';
-require_once '../utils.php';
-require_once '../conexion/db.php';
+require_once __DIR__.'/Flight.php';
+require_once __DIR__.'utils.php';
+require_once __DIR__.'conexion/db.php';
 
 Flight::route('POST /register', function () {
     $db = Flight::get('pdo');
